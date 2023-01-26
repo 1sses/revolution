@@ -53,7 +53,6 @@ const router = createRouter({
 
 export const transitionName = ref("slide-right");
 router.beforeEach((to, from, next) => {
-  console.log(to.meta.order, from.meta.order);
   if (to.meta.order < from.meta.order) {
     transitionName.value = "slide-left";
   } else {

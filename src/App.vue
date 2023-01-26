@@ -1,5 +1,5 @@
 <template>
-  <main class="main">
+  <main class="main" :style="{ ...sizes }">
     <header class="header">
       <h2>Бюджет: {{ money }} $</h2>
       <h3>Прирост: {{ income }} $</h3>
@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, watchEffect } from "vue";
+import { onMounted, reactive, watchEffect } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useAppStore } from "@/store/app.store";
@@ -26,8 +26,24 @@ import { routes, transitionName } from "@/router";
 const router = useRouter();
 const route = useRoute();
 
-watchEffect(() => {
-  console.log(transitionName.value);
+// SIZE
+const sizes = reactive({
+  width: "",
+  height: "",
+});
+const computeSizes = () => {
+  const aspectRatio = 1600 / 2560;
+  if (window.innerWidth / window.innerHeight > aspectRatio) {
+    sizes.width = window.innerHeight * aspectRatio + "px";
+    sizes.height = "100vh";
+  } else {
+    sizes.width = window.innerWidth + "px";
+    sizes.height = window.innerWidth / aspectRatio + "px";
+  }
+};
+onMounted(() => {
+  computeSizes();
+  window.addEventListener("resize", computeSizes);
 });
 
 // SWIPE
@@ -58,7 +74,29 @@ setInterval(() => {
 </script>
 
 <style lang="scss">
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 10px;
+  letter-spacing: 1px;
+  user-select: none;
+
+  @media (max-width: 768px) {
+    font-size: 8px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 6px;
+  }
+}
+
 body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
   margin: 0;
   padding: 0;
   background: black;
@@ -74,28 +112,27 @@ body {
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  height: 100vh;
 
   .header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 4.25vh;
+    margin-top: 7%;
 
     h2,
     h3 {
-      margin: 0.5vh 0;
+      margin: 2% 0;
       font-weight: 400;
     }
 
     h2 {
       color: floralwhite;
-      font-size: 2.5vh;
+      font-size: 3.3rem;
     }
 
     h3 {
-      color: yellowgreen;
-      font-size: 1.75vh;
+      color: #c1cd32;
+      font-size: 2.3rem;
     }
   }
 
@@ -105,7 +142,8 @@ body {
     align-items: center;
     width: 100%;
     height: 100%;
-    margin-top: 8vh;
+    margin-top: 15%;
+    padding: 0 12%;
   }
 }
 
