@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, reactive, watchEffect } from 'vue';
+import { computed, onMounted, reactive } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useAppStore } from '@/store/app.store';
@@ -132,7 +132,6 @@ appStore.$subscribe((mutation, state) => {
 html {
   color: floralwhite;
   font-weight: 400;
-  //letter-spacing: 1px;
   user-select: none;
 }
 
