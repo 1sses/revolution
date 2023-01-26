@@ -1,9 +1,12 @@
 <template>
   <main class="main" :style="{ ...sizes }">
     <header class="header">
-      <h2>Бюджет: {{ money }} $</h2>
-      <h3>Прирост: {{ income }} $</h3>
-      <h3>Население: {{ population }} | Еда: {{ food }}</h3>
+      <h2>Бюджет: {{ money.toLocaleString() }} руб.</h2>
+      <h3>Прирост: {{ income.toLocaleString() }} руб.</h3>
+      <h3>
+        Население: {{ population.toLocaleString() }} | Еда:
+        {{ food.toLocaleString() }}
+      </h3>
     </header>
     <router-view v-slot="{ Component, route }">
       <transition :name="transitionName" mode="out-in">
@@ -55,12 +58,14 @@ onMounted(() => {
   manager.add(Swipe);
 
   manager.on("swipeleft", (e) => {
-    const next = routes.find((r) => r.meta.order === route.meta.order + 1);
+    const next = routes.find((r) => r.meta?.order === route.meta.order + 1);
     if (next) router.push(next.path);
+    transitionName.value = "slide-left";
   });
   manager.on("swiperight", (e) => {
-    const prev = routes.find((r) => r.meta.order === route.meta.order - 1);
+    const prev = routes.find((r) => r.meta?.order === route.meta.order - 1);
     if (prev) router.push(prev.path);
+    transitionName.value = "slide-right";
   });
 });
 
@@ -79,7 +84,9 @@ setInterval(() => {
 }
 
 html {
+  color: floralwhite;
   font-size: 10px;
+  font-weight: 400;
   letter-spacing: 1px;
   user-select: none;
 
@@ -113,6 +120,15 @@ body {
   background-position: center;
   background-repeat: no-repeat;
 
+  .green {
+    color: #c1cd32;
+  }
+
+  h2,
+  h3 {
+    font-weight: 400;
+  }
+
   .header {
     display: flex;
     flex-direction: column;
@@ -122,11 +138,9 @@ body {
     h2,
     h3 {
       margin: 2% 0;
-      font-weight: 400;
     }
 
     h2 {
-      color: floralwhite;
       font-size: 3.3rem;
     }
 

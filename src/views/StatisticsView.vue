@@ -25,11 +25,6 @@ import InfoItem from "@/components/InfoItem.vue";
 <style scoped lang="scss">
 section {
   width: 100%;
-  color: floralwhite;
-
-  .green {
-    color: #c1cd32;
-  }
 
   .title {
     font-size: 2.5rem;
@@ -45,7 +40,6 @@ section {
   h2,
   h3 {
     margin: 1rem 0;
-    font-weight: 400;
   }
 }
 </style>

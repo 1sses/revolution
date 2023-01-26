@@ -54,9 +54,9 @@ const router = createRouter({
 export const transitionName = ref("slide-right");
 router.beforeEach((to, from, next) => {
   if (to.meta.order < from.meta.order) {
-    transitionName.value = "slide-left";
+    // transitionName.value = "slide-left";
   } else {
-    transitionName.value = "slide-right";
+    // transitionName.value = "slide-right";
   }
   next();
 });
