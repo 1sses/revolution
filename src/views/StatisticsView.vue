@@ -28,27 +28,28 @@
 </template>
 
 <script setup lang="ts">
-import InfoItem from "@/components/InfoItem.vue";
-import { storeToRefs } from "pinia";
-import { useAppStore } from "@/store/app.store";
-import { computed } from "vue";
+import InfoItem from '@/components/InfoItem.vue';
+import { storeToRefs } from 'pinia';
+import { useAppStore } from '@/store/app.store';
+import { computed } from 'vue';
 
 const appStore = useAppStore();
 const { stats, population } = storeToRefs(appStore);
 const status = computed(() => {
+  // TODO change names
   switch (true) {
     case population.value < 10000:
-      return "Миниполис";
+      return 'Миниполис';
     case population.value < 100000:
-      return "Малый город";
+      return 'Малый город';
     case population.value < 1000000:
-      return "Город";
+      return 'Город';
     case population.value < 10000000:
-      return "Мегаполис";
+      return 'Мегаполис';
     case population.value < 100000000:
-      return "Метрополис";
+      return 'Метрополис';
     default:
-      return "";
+      return '';
   }
 });
 </script>

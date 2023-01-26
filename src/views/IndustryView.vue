@@ -13,11 +13,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import SquareButton from "@/components/SquareButton.vue";
-import { useAppStore } from "@/store/app.store";
-import { useModalStore } from "@/store/modal.store";
-import { industryItemsTemplate } from "@/data/industry";
+import { computed } from 'vue';
+import SquareButton from '@/components/SquareButton.vue';
+import { useAppStore } from '@/store/app.store';
+import { useModalStore } from '@/store/modal.store';
+import { industryItemsTemplate } from '@/data/industry';
 
 const appStore = useAppStore();
 const modalStore = useModalStore();
@@ -35,9 +35,9 @@ const handleIndustryClick = (item) => {
   );
   if (appStore.money + appStore.income * 30 < item.cost) {
     modalStore.openModal({
-      header: "Действие невозможно",
+      header: 'Действие невозможно',
       content:
-        "Долг страны будет слишком велик, накопите достаточно ресурсов и попробуйте снова.",
+        'Долг страны будет слишком велик, накопите достаточно ресурсов и попробуйте снова.',
     });
     return;
   }

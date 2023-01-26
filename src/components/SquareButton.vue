@@ -1,7 +1,7 @@
 <template>
   <div class="square-button-wrapper">
     <span class="upper-text">{{ upperText }}</span>
-    <button class="button">
+    <button class="button green">
       {{ innerText }}
     </button>
     <div>
@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from "vue";
+import { defineProps } from 'vue';
 
 interface IProps {
   upperText: string | number;
@@ -39,9 +39,8 @@ defineProps<IProps>();
     width: 100%;
     aspect-ratio: 1/1;
     border: none;
-    background: url("../assets/button-bg.png");
+    background: url('../assets/button-bg.png');
     background-size: contain;
-    color: #c1cd32;
     cursor: pointer;
   }
 

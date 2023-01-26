@@ -20,54 +20,54 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { storeToRefs } from "pinia";
-import { useAppStore } from "@/store/app.store";
-import Hammer from "hammerjs";
-import { routes, transitionName } from "@/router";
-import ModalForm from "@/components/ModalForm.vue";
+import { onMounted, reactive } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { storeToRefs } from 'pinia';
+import { useAppStore } from '@/store/app.store';
+import Hammer from 'hammerjs';
+import { routes, transitionName } from '@/router';
+import ModalForm from '@/components/ModalForm.vue';
 
 const router = useRouter();
 const route = useRoute();
 
 // SIZE
 const sizes = reactive({
-  width: "",
-  height: "",
+  width: '',
+  height: '',
 });
 const computeSizes = () => {
   const aspectRatio = 1600 / 2560;
   if (window.innerWidth / window.innerHeight > aspectRatio) {
-    sizes.width = window.innerHeight * aspectRatio + "px";
-    sizes.height = "100vh";
+    sizes.width = window.innerHeight * aspectRatio + 'px';
+    sizes.height = '100vh';
   } else {
-    sizes.width = window.innerWidth + "px";
-    sizes.height = window.innerWidth / aspectRatio + "px";
+    sizes.width = window.innerWidth + 'px';
+    sizes.height = window.innerWidth / aspectRatio + 'px';
   }
 };
 onMounted(() => {
   computeSizes();
-  window.addEventListener("resize", computeSizes);
+  window.addEventListener('resize', computeSizes);
 });
 
 // SWIPE
 onMounted(() => {
-  const page = document.getElementById("page");
+  const page = document.getElementById('page');
   if (!page) return;
   const manager = new Hammer.Manager(page);
   const Swipe = new Hammer.Swipe();
   manager.add(Swipe);
 
-  manager.on("swipeleft", (e) => {
+  manager.on('swipeleft', (e) => {
     const next = routes.find((r) => r.meta?.order === route.meta.order + 1);
     if (next) router.push(next.path);
-    transitionName.value = "slide-left";
+    transitionName.value = 'slide-left';
   });
-  manager.on("swiperight", (e) => {
+  manager.on('swiperight', (e) => {
     const prev = routes.find((r) => r.meta?.order === route.meta.order - 1);
     if (prev) router.push(prev.path);
-    transitionName.value = "slide-right";
+    transitionName.value = 'slide-right';
   });
 });
 
@@ -117,7 +117,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  background-image: url("./assets/background.png");
+  background-image: url('./assets/background.png');
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;

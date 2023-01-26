@@ -25,9 +25,9 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from "vue";
-import { storeToRefs } from "pinia";
-import { useModalStore } from "@/store/modal.store";
+import { defineProps } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useModalStore } from '@/store/modal.store';
 
 interface IProps {
   width: string;
@@ -57,7 +57,7 @@ const { isOpen, header, content } = storeToRefs(modalStore);
   position: relative;
   padding: 4rem;
   background: #fff;
-  background: url("../assets/modal-bg.png");
+  background: url('../assets/modal-bg.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
 
@@ -78,7 +78,7 @@ const { isOpen, header, content } = storeToRefs(modalStore);
     right: -2rem;
     width: 8rem;
     height: 8rem;
-    background: url("../assets/close-btn.png") no-repeat;
+    background: url('../assets/close-btn.png') no-repeat;
     background-size: 100% 100%;
     border: none;
     cursor: pointer;
