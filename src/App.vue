@@ -1,13 +1,17 @@
 <template>
-  <main class="main" :style="{ ...sizes }">
+  <main
+    class="main"
+    :style="{ ...sizes, fontSize: `calc(${sizes.height} / 100)` }"
+  >
     <ModalForm :width="sizes.width" />
     <header class="header">
       <h2>Бюджет: {{ money.toLocaleString() }} руб.</h2>
-      <h3>Прирост: {{ income.toLocaleString() }} руб.</h3>
-      <h3>
+      <h3 class="green">Прирост: {{ income.toLocaleString() }} руб.</h3>
+      <h3 class="green">
         Население: {{ population.toLocaleString() }} | Еда:
         {{ food.toLocaleString() }}
       </h3>
+      <h3 class="page-title">{{ route.meta.title }}</h3>
     </header>
     <router-view v-slot="{ Component, route }">
       <transition :name="transitionName" mode="out-in">
@@ -47,7 +51,7 @@ const computeSizes = () => {
   const aspectRatio = 1600 / 2560;
   if (window.innerWidth / window.innerHeight > aspectRatio) {
     sizes.width = window.innerHeight * aspectRatio + 'px';
-    sizes.height = '100vh';
+    sizes.height = window.innerHeight + 'px';
   } else {
     sizes.width = window.innerWidth + 'px';
     sizes.height = window.innerWidth / aspectRatio + 'px';
@@ -127,18 +131,9 @@ appStore.$subscribe((mutation, state) => {
 
 html {
   color: floralwhite;
-  font-size: 10px;
   font-weight: 400;
   letter-spacing: 1px;
   user-select: none;
-
-  @media (max-width: 768px) {
-    font-size: 8px;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 6px;
-  }
 }
 
 body {
@@ -179,16 +174,23 @@ body {
 
     h2,
     h3 {
-      margin: 2% 0;
+      margin: 0.8% 0;
     }
 
     h2 {
-      font-size: 3.3rem;
+      font-size: 270%;
     }
 
     h3 {
-      color: #c1cd32;
-      font-size: 2.3rem;
+      font-size: 210%;
+    }
+
+    .page-title {
+      position: relative;
+      top: 13%;
+      right: 20%;
+      margin: 2% 0;
+      font-size: 180%;
     }
   }
 
@@ -199,7 +201,7 @@ body {
     align-items: center;
     width: 100%;
     height: 100%;
-    margin-top: 15%;
+    margin-top: 9%;
     padding: 0 12%;
 
     .slider {

@@ -61,7 +61,7 @@ section {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  column-gap: 20px;
+  column-gap: 7%;
   width: 100%;
   height: 95%;
 }

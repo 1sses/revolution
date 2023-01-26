@@ -7,7 +7,9 @@
       label="Атомное оружие:"
       :value="stats.atomicWeapon ? 'Да' : 'Нет'"
     />
-    <h2 class="green title" style="text-align: center">Статус:</h2>
+    <h2 class="green title" style="text-align: center; margin-top: 5%">
+      Статус:
+    </h2>
     <h1 class="status-name" style="text-align: center">{{ status }}</h1>
     <h2 class="green title">Военная аналитика</h2>
     <InfoItem label="Участий в военных конфликтах:" :value="stats.conflicts" />
@@ -15,7 +17,7 @@
     <InfoItem label="Поражений:" :value="stats.loses" />
     <InfoItem label="Предприятий захвачено:" :value="stats.industryCaptured" />
     <InfoItem label="Предприятий потеряно:" :value="stats.industryLost" />
-    <h2 class="green title">Данные о гражданах</h2>
+    <h2 class="green title" style="margin-top: 5%">Данные о гражданах</h2>
     <InfoItem
       label="Погибло в конфликтах:"
       :value="stats.populationDiedInConflicts"
@@ -59,19 +61,19 @@ section {
   width: 100%;
 
   .title {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
+    font-size: 250%;
+    margin-bottom: 3%;
   }
 
   .status-name {
-    margin: 1rem 0 3rem;
-    font-size: 5rem;
+    margin: 0 0 8%;
+    font-size: 500%;
     font-weight: 400;
   }
 
   h2,
   h3 {
-    margin: 1rem 0;
+    margin: 1% 0;
   }
 }
 </style>

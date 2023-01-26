@@ -29,13 +29,13 @@ defineProps<IProps>();
   display: flex;
   flex-direction: column;
   align-items: center;
-  row-gap: 1rem;
-  width: 25%;
+  row-gap: 2%;
+  width: 28%;
 
   .button {
     display: block;
-    padding: 1.5rem;
-    font-size: 1.75rem;
+    padding: 10%;
+    font-size: 140%;
     width: 100%;
     aspect-ratio: 1/1;
     border: none;
@@ -46,8 +46,8 @@ defineProps<IProps>();
 
   .upper-text,
   .lower-text {
-    margin: 5px 0;
-    font-size: 1.5rem;
+    margin: 1% 0;
+    font-size: 140%;
     text-align: center;
   }
 }
