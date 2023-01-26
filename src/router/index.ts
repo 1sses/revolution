@@ -44,6 +44,10 @@ export const routes: Array<RouteRecordRaw> = [
     component: EnemyView,
     meta: { title: 'Потенциальный противник', order: 5 },
   },
+  {
+    path: '/',
+    redirect: '/stats',
+  },
 ];
 
 const router = createRouter({
