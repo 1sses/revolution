@@ -46,6 +46,6 @@ section {
   justify-content: space-evenly;
   column-gap: 7%;
   width: 100%;
-  height: 95%;
+  height: 93%;
 }
 </style>

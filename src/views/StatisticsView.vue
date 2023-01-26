@@ -2,11 +2,8 @@
   <section>
     <h2 class="green title">Статистика развития</h2>
     <InfoItem label="Предприятий построено:" :value="stats.industryBuilt" />
-    <InfoItem label="Сформировано ВС:" :value="0" />
-    <InfoItem
-      label="Атомное оружие:"
-      :value="stats.atomicWeapon ? 'Да' : 'Нет'"
-    />
+    <InfoItem label="Сформировано ВС:" :value="stats.militaryBuilt" />
+    <InfoItem label="Атомное оружие:" :value="military[6] > 0 ? 'Да' : 'Нет'" />
     <h2 class="green title" style="text-align: center; margin-top: 5%">
       Статус:
     </h2>
@@ -36,7 +33,7 @@ import { useAppStore } from '@/store/app.store';
 import { computed } from 'vue';
 
 const appStore = useAppStore();
-const { stats, population } = storeToRefs(appStore);
+const { stats, population, military } = storeToRefs(appStore);
 const status = computed(() => {
   // TODO change names
   switch (true) {

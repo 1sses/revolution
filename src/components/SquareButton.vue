@@ -39,7 +39,7 @@ defineProps<IProps>();
     width: 100%;
     aspect-ratio: 1/1;
     border: none;
-    background: url('../assets/button-bg.png');
+    background: url('../assets/square-button-bg.png');
     background-size: contain;
     cursor: pointer;
   }

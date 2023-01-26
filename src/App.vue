@@ -132,7 +132,7 @@ appStore.$subscribe((mutation, state) => {
 html {
   color: floralwhite;
   font-weight: 400;
-  letter-spacing: 1px;
+  //letter-spacing: 1px;
   user-select: none;
 }
 

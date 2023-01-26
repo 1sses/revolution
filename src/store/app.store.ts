@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 export const useAppStore = defineStore('app', {
   state: () => ({
-    money: 25000000,
+    money: 250000000,
     income: 10,
     population: 8000,
     food: 100000,
@@ -28,7 +28,6 @@ export const useAppStore = defineStore('app', {
     stats: {
       industryBuilt: 0,
       militaryBuilt: 0,
-      atomicWeapon: false,
       conflicts: 0,
       wins: 0,
       loses: 0,
