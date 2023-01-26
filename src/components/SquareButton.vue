@@ -15,10 +15,10 @@
 import { defineProps } from "vue";
 
 interface IProps {
-  upperText: string;
-  innerText: string;
-  lowerText: string;
-  subtitle?: string;
+  upperText: string | number;
+  innerText: string | number;
+  lowerText: string | number;
+  subtitle?: string | number;
 }
 
 defineProps<IProps>();
@@ -38,6 +38,7 @@ defineProps<IProps>();
     font-size: 1.75rem;
     width: 100%;
     aspect-ratio: 1/1;
+    border: none;
     background: url("../assets/button-bg.png");
     background-size: contain;
     color: #c1cd32;

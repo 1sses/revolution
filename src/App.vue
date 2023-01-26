@@ -1,5 +1,6 @@
 <template>
   <main class="main" :style="{ ...sizes }">
+    <ModalForm :width="sizes.width" />
     <header class="header">
       <h2>Бюджет: {{ money.toLocaleString() }} руб.</h2>
       <h3>Прирост: {{ income.toLocaleString() }} руб.</h3>
@@ -19,12 +20,13 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, watchEffect } from "vue";
+import { onMounted, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useAppStore } from "@/store/app.store";
 import Hammer from "hammerjs";
 import { routes, transitionName } from "@/router";
+import ModalForm from "@/components/ModalForm.vue";
 
 const router = useRouter();
 const route = useRoute();

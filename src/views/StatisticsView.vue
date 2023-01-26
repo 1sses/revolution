@@ -1,25 +1,56 @@
 <template>
   <section>
     <h2 class="green title">Статистика развития</h2>
-    <InfoItem label="Предприятий построено:" value="0" />
-    <InfoItem label="Сформировано ВС:" value="0" />
-    <InfoItem label="Атомное оружие:" value="Нет" />
+    <InfoItem label="Предприятий построено:" :value="stats.industryBuilt" />
+    <InfoItem label="Сформировано ВС:" :value="0" />
+    <InfoItem
+      label="Атомное оружие:"
+      :value="stats.atomicWeapon ? 'Да' : 'Нет'"
+    />
     <h2 class="green title" style="text-align: center">Статус:</h2>
-    <h1 class="status-name" style="text-align: center">Миниполис</h1>
+    <h1 class="status-name" style="text-align: center">{{ status }}</h1>
     <h2 class="green title">Военная аналитика</h2>
-    <InfoItem label="Участий в военных конфликтах:" value="0" />
-    <InfoItem label="Побед:" value="0" />
-    <InfoItem label="Поражений:" value="0" />
-    <InfoItem label="Предприятий захвачено:" value="0" />
-    <InfoItem label="Предприятий потеряно:" value="0" />
+    <InfoItem label="Участий в военных конфликтах:" :value="stats.conflicts" />
+    <InfoItem label="Побед:" :value="stats.wins" />
+    <InfoItem label="Поражений:" :value="stats.loses" />
+    <InfoItem label="Предприятий захвачено:" :value="stats.industryCaptured" />
+    <InfoItem label="Предприятий потеряно:" :value="stats.industryLost" />
     <h2 class="green title">Данные о гражданах</h2>
-    <InfoItem label="Погибло в конфликтах:" value="0" />
-    <InfoItem label="Прогибло от голода:" value="0" />
+    <InfoItem
+      label="Погибло в конфликтах:"
+      :value="stats.populationDiedInConflicts"
+    />
+    <InfoItem
+      label="Прогибло от голода:"
+      :value="stats.populationDiedFromStarving"
+    />
   </section>
 </template>
 
 <script setup lang="ts">
 import InfoItem from "@/components/InfoItem.vue";
+import { storeToRefs } from "pinia";
+import { useAppStore } from "@/store/app.store";
+import { computed } from "vue";
+
+const appStore = useAppStore();
+const { stats, population } = storeToRefs(appStore);
+const status = computed(() => {
+  switch (true) {
+    case population.value < 10000:
+      return "Миниполис";
+    case population.value < 100000:
+      return "Малый город";
+    case population.value < 1000000:
+      return "Город";
+    case population.value < 10000000:
+      return "Мегаполис";
+    case population.value < 100000000:
+      return "Метрополис";
+    default:
+      return "";
+  }
+});
 </script>
 
 <style scoped lang="scss">
