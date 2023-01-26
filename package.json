@@ -9,11 +9,14 @@
   },
   "dependencies": {
     "core-js": "^3.8.3",
+    "hammerjs": "^2.0.8",
     "pinia": "^2.0.29",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3"
   },
   "devDependencies": {
+    "@types/hammerjs": "^2.0.41",
+    "@types/vue2-hammer": "^2.1.2",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "@vue/cli-plugin-babel": "~5.0.0",
@@ -31,6 +34,9 @@
     "sass-loader": "^12.0.0",
     "typescript": "~4.5.5"
   },
+  "prettier": {
+    "singleQuote": true
+  },
   "eslintConfig": {
     "root": true,
     "env": {
@@ -45,7 +51,8 @@
     "parserOptions": {
       "ecmaVersion": 2020
     },
-    "rules": {}
+    "rules": {
+    }
   },
   "browserslist": [
     "> 1%",

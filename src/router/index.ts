@@ -1,26 +1,65 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import StatisticsView from "@/views/StatisticsView.vue";
+import IndustryView from "@/views/IndustryView.vue";
+import FoodView from "@/views/FoodView.vue";
+import MilitaryView from "@/views/MilitaryView.vue";
+import EnemyView from "@/views/EnemyView.vue";
+import { ref } from "vue";
 
-const routes: Array<RouteRecordRaw> = [
+declare module "vue-router" {
+  interface RouteMeta {
+    title: string;
+    order: number;
+  }
+}
+
+export const routes: Array<RouteRecordRaw> = [
   {
-    path: "/",
-    name: "home",
-    component: HomeView,
+    path: "/stats",
+    name: "stats",
+    component: StatisticsView,
+    meta: { title: "Статистика", order: 1 },
   },
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+    path: "/industry",
+    name: "industry",
+    component: IndustryView,
+    meta: { title: "Промышленность", order: 2 },
+  },
+  {
+    path: "/food",
+    name: "food",
+    component: FoodView,
+    meta: { title: "Продовольствие", order: 3 },
+  },
+  {
+    path: "/military",
+    name: "military",
+    component: MilitaryView,
+    meta: { title: "Вооруженные силы", order: 4 },
+  },
+  {
+    path: "/enemy",
+    name: "enemy",
+    component: EnemyView,
+    meta: { title: "Потенциальный противник", order: 5 },
   },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+export const transitionName = ref("slide-right");
+router.beforeEach((to, from, next) => {
+  console.log(to.meta.order, from.meta.order);
+  if (to.meta.order < from.meta.order) {
+    transitionName.value = "slide-left";
+  } else {
+    transitionName.value = "slide-right";
+  }
+  next();
 });
 
 export default router;

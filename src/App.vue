@@ -1,30 +1,135 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view />
+  <main class="main">
+    <header class="header">
+      <h2>Бюджет: {{ money }} $</h2>
+      <h3>Прирост: {{ income }} $</h3>
+      <h3>Население: {{ population }} | Еда: {{ food }}</h3>
+    </header>
+    <router-view v-slot="{ Component, route }">
+      <transition :name="transitionName" mode="out-in">
+        <div id="page" class="page">
+          <component :key="route.name" :is="Component" />
+        </div>
+      </transition>
+    </router-view>
+  </main>
 </template>
 
+<script setup lang="ts">
+import { onMounted, watchEffect } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
+import { useAppStore } from "@/store/app.store";
+import Hammer from "hammerjs";
+import { routes, transitionName } from "@/router";
+
+const router = useRouter();
+const route = useRoute();
+
+watchEffect(() => {
+  console.log(transitionName.value);
+});
+
+// SWIPE
+onMounted(() => {
+  const page = document.getElementById("page");
+  if (!page) return;
+  const manager = new Hammer.Manager(page);
+  const Swipe = new Hammer.Swipe();
+  manager.add(Swipe);
+
+  manager.on("swipeleft", (e) => {
+    const next = routes.find((r) => r.meta.order === route.meta.order + 1);
+    if (next) router.push(next.path);
+  });
+  manager.on("swiperight", (e) => {
+    const prev = routes.find((r) => r.meta.order === route.meta.order - 1);
+    if (prev) router.push(prev.path);
+  });
+});
+
+const appStore = useAppStore();
+const { money, income, population, food } = storeToRefs(appStore);
+
+setInterval(() => {
+  appStore.money += appStore.income;
+  appStore.food -= Math.round(appStore.population * 0.03);
+}, 1000);
+</script>
+
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+body {
+  margin: 0;
+  padding: 0;
+  background: black;
+  font-family: sans-serif;
 }
 
-nav {
-  padding: 30px;
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-image: url("./assets/background.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 4.25vh;
 
-    &.router-link-exact-active {
-      color: #42b983;
+    h2,
+    h3 {
+      margin: 0.5vh 0;
+      font-weight: 400;
+    }
+
+    h2 {
+      color: floralwhite;
+      font-size: 2.5vh;
+    }
+
+    h3 {
+      color: yellowgreen;
+      font-size: 1.75vh;
     }
   }
+
+  .page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    margin-top: 8vh;
+  }
+}
+
+// PAGE TRANSITIONS
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition-duration: 0.5s;
+  transition-property: height, opacity, transform;
+  transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
+  overflow: hidden;
+}
+
+.slide-left-enter,
+.slide-right-leave-active {
+  background: red;
+  opacity: 0;
+  transform: translate(2em, 0);
+}
+
+.slide-left-leave-active,
+.slide-right-enter {
+  opacity: 0;
+  transform: translate(-2em, 0);
 }
 </style>
