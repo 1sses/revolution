@@ -13,6 +13,12 @@
       <transition :name="transitionName" mode="out-in">
         <div id="page" class="page">
           <component :key="route.name" :is="Component" />
+          <img
+            src="./assets/slider.png"
+            alt="slider"
+            class="slider"
+            :style="{ left: sliderPosition }"
+          />
         </div>
       </transition>
     </router-view>
@@ -20,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive } from 'vue';
+import { computed, onMounted, reactive } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useAppStore } from '@/store/app.store';
@@ -69,6 +75,23 @@ onMounted(() => {
     if (prev) router.push(prev.path);
     transitionName.value = 'slide-right';
   });
+});
+
+const sliderPosition = computed(() => {
+  switch (route.meta.order) {
+    case 1:
+      return '12%';
+    case 2:
+      return '23%';
+    case 3:
+      return '40%';
+    case 4:
+      return '57%';
+    case 5:
+      return '66%';
+    default:
+      return '0%';
+  }
 });
 
 const appStore = useAppStore();
@@ -153,6 +176,7 @@ body {
   }
 
   .page {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -160,6 +184,13 @@ body {
     height: 100%;
     margin-top: 15%;
     padding: 0 12%;
+
+    .slider {
+      position: absolute;
+      bottom: 4.5%;
+      width: 17%;
+      transition: left 0.2s;
+    }
   }
 }
 

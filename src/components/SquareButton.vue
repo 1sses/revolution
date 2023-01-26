@@ -1,7 +1,7 @@
 <template>
   <div class="square-button-wrapper">
     <span class="upper-text">{{ upperText }}</span>
-    <button class="button green">
+    <button class="button green" @click="$emit('btn-click')">
       {{ innerText }}
     </button>
     <div>

@@ -3,11 +3,11 @@
     <SquareButton
       v-for="item in food"
       :key="item.label"
-      :upper-text="`+${item.income} к приросту`"
+      :upper-text="`+${item.income.label} к еде`"
       :inner-text="item.label"
       :lower-text="item.cost.toLocaleString()"
       subtitle="рублей"
-      @click="handleFoodClick(item)"
+      @btn-click="handleFoodClick(item)"
     />
   </section>
 </template>
@@ -31,7 +31,11 @@ const handleFoodClick = (item) => {
     return;
   }
   appStore.money -= item.cost;
-  appStore.food += item.income;
+  appStore.food = Math.round(
+    item.income.type === 'plain'
+      ? appStore.food + item.income.value
+      : appStore.food * (1 + item.income.value / 100)
+  );
 };
 </script>
 

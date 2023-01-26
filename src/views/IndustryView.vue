@@ -3,11 +3,11 @@
     <SquareButton
       v-for="item in industry"
       :key="item.label"
-      :upper-text="`+${item.income} к приросту`"
+      :upper-text="`+${item.income.label} к приросту`"
       :inner-text="item.label"
       :lower-text="item.cost.toLocaleString()"
       subtitle="рублей"
-      @click="handleIndustryClick(item)"
+      @btn-click="handleIndustryClick(item)"
     />
   </section>
 </template>
@@ -43,7 +43,12 @@ const handleIndustryClick = (item) => {
   }
   appStore.industry[index + 1] += 1;
   appStore.money -= item.cost;
-  appStore.income += item.income;
+  console.log(item.income);
+  appStore.income = Math.round(
+    item.income.type === 'plain'
+      ? appStore.income + item.income.value
+      : appStore.income * (1 + item.income.value / 100)
+  );
   appStore.population +=
     item.basicPopulationIncome +
     Math.floor(appStore.industry[index + 1] / 10) * 10; // TODO is this ok?
