@@ -26,13 +26,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, reactive } from 'vue';
+import { computed, onMounted, reactive, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useAppStore } from '@/store/app.store';
 import Hammer from 'hammerjs';
 import { routes, transitionName } from '@/router';
 import ModalForm from '@/components/ModalForm.vue';
+import { decrypt, encrypt } from '@/utils/crypto';
 
 const router = useRouter();
 const route = useRoute();
@@ -65,12 +66,12 @@ onMounted(() => {
   const Swipe = new Hammer.Swipe();
   manager.add(Swipe);
 
-  manager.on('swipeleft', (e) => {
+  manager.on('swipeleft', () => {
     const next = routes.find((r) => r.meta?.order === route.meta.order + 1);
     if (next) router.push(next.path);
     transitionName.value = 'slide-left';
   });
-  manager.on('swiperight', (e) => {
+  manager.on('swiperight', () => {
     const prev = routes.find((r) => r.meta?.order === route.meta.order - 1);
     if (prev) router.push(prev.path);
     transitionName.value = 'slide-right';
@@ -97,10 +98,26 @@ const sliderPosition = computed(() => {
 const appStore = useAppStore();
 const { money, income, population, food } = storeToRefs(appStore);
 
+try {
+  const ls = localStorage.getItem('data');
+  if (ls) {
+    const data = decrypt(ls);
+    appStore.$state = JSON.parse(data);
+  }
+} catch (error) {
+  console.error(error);
+  localStorage.removeItem('data');
+}
+
 setInterval(() => {
   appStore.money += appStore.income;
   appStore.food -= Math.round(appStore.population * 0.03);
 }, 1000);
+
+appStore.$subscribe((mutation, state) => {
+  const data = encrypt(JSON.stringify(state));
+  localStorage.setItem('data', data);
+});
 </script>
 
 <style lang="scss">
