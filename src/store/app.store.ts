@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { militaryPowerFn } from '@/utils/algorithms';
 
 export const useAppStore = defineStore('app', {
   state: () => ({
@@ -18,13 +19,14 @@ export const useAppStore = defineStore('app', {
       9: 0,
     },
     military: {
-      1: 0,
-      2: 0,
-      3: 0,
+      1: 2,
+      2: 1,
+      3: 2,
       4: 0,
       5: 0,
       6: 0,
     },
+    enemy: 0,
     stats: {
       industryBuilt: 0,
       militaryBuilt: 0,
@@ -37,4 +39,7 @@ export const useAppStore = defineStore('app', {
       populationDiedFromStarving: 0,
     },
   }),
+  getters: {
+    militaryPower: (state) => militaryPowerFn(state.military),
+  },
 });

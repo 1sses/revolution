@@ -1,9 +1,9 @@
 <template>
   <section>
     <h2 class="title">Угроза вторжения</h2>
-    <SliderLine :value="21" />
+    <SliderLine :value="85" />
     <h2 class="title" style="margin-top: 5%">Угроза атомной бомбардировки</h2>
-    <SliderLine :value="5" />
+    <SliderLine :value="13" />
     <div class="military-items">
       <SquareButton
         v-for="(item, i) in military"
@@ -43,7 +43,6 @@ const handleIndustryClick = (item) => {
   appStore.military[index + 1] += 1;
   appStore.money -= item.cost;
   appStore.stats.militaryBuilt += 1;
-  console.log(appStore);
 };
 </script>
 
@@ -61,8 +60,8 @@ section {
     flex-wrap: wrap;
     justify-content: space-evenly;
     column-gap: 7%;
-    height: 70%;
-    margin-top: 8%;
+    height: 65%;
+    margin-top: 12%;
   }
 }
 </style>

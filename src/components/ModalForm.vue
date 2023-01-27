@@ -55,27 +55,27 @@ const { isOpen, header, content } = storeToRefs(modalStore);
 
 .modal-inner {
   position: relative;
-  padding: 4rem;
+  padding: 5%;
   background: #fff;
   background: url('../assets/modal-bg.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
 
   .header {
-    font-size: 5rem;
+    font-size: 500%;
     text-align: center;
-    margin: 2rem 0;
+    margin: 2% 0;
   }
 
   .content {
-    font-size: 2.3rem;
+    font-size: 230%;
     margin: 15% 0;
   }
 
   .close-button {
     position: absolute;
-    top: -4rem;
-    right: -2rem;
+    top: -4%;
+    right: -2%;
     width: 8rem;
     height: 8rem;
     background: url('../assets/close-btn.png') no-repeat;
