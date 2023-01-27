@@ -98,14 +98,19 @@ const attack = () => {
   isWin ? (appStore.stats.wins += 1) : (appStore.stats.loses += 1);
 
   const militaryLoss = {
-    // TODO check military loss
-    1: Math.round(Math.random() * appStore.military[1] * (isWin ? 0.1 : 0.3)),
-    2: Math.round(Math.random() * appStore.military[2] * (isWin ? 0.1 : 0.3)),
-    3: Math.round(Math.random() * appStore.military[3] * (isWin ? 0.1 : 0.3)),
-    4: Math.round(Math.random() * appStore.military[4] * (isWin ? 0.1 : 0.3)),
-    5: Math.round(Math.random() * appStore.military[5] * (isWin ? 0.1 : 0.3)),
-    // 6: Math.round(Math.random() * appStore.military[6] * (isWin ? 0.1 : 0.3)),
+    1: Math.round(Math.random() * appStore.military[1] * (isWin ? 0.2 : 1)),
+    2: Math.round(Math.random() * appStore.military[2] * (isWin ? 0.2 : 1)),
+    3: Math.round(Math.random() * appStore.military[3] * (isWin ? 0.2 : 1)),
+    4: Math.round(Math.random() * appStore.military[4] * (isWin ? 0.2 : 1)),
+    5: Math.round(Math.random() * appStore.military[5] * (isWin ? 0.2 : 1)),
   };
+  for (let i = 1; i <= 5; i++) {
+    appStore.military[i] -= militaryLoss[i];
+  }
+  if (appStore.military[1] === 0) {
+    appStore.military[1] = 1;
+    militaryLoss[1] -= 1;
+  }
 
   if (isWin) {
     const budgetProfit = Math.floor((Math.random() * enemy.value.budget) / 2);
