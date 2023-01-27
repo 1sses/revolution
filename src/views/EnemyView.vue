@@ -2,9 +2,18 @@
   <section>
     <h1 class="country-name" style="text-align: center">{{ enemy.name }}</h1>
     <h2 class="title green">Уровень развития</h2>
-    <InfoItem label="Население:" :value="`${enemy.population} человек`" />
-    <InfoItem label="Бюджет страны:" :value="`${enemy.budget} руб.`" />
-    <InfoItem label="Прирост бюджета:" :value="`${enemy.income} руб.`" />
+    <InfoItem
+      label="Население:"
+      :value="`${enemy.population.toLocaleString()} человек`"
+    />
+    <InfoItem
+      label="Бюджет страны:"
+      :value="`${enemy.budget.toLocaleString()} руб.`"
+    />
+    <InfoItem
+      label="Прирост бюджета:"
+      :value="`${enemy.income.toLocaleString()} руб.`"
+    />
     <h2 class="title green" style="margin-top: 5%">Данные об армии</h2>
     <InfoItem
       label="Танковая дивизия:"
@@ -46,7 +55,7 @@ import WideButton from '@/components/WideButton.vue';
 import { computed, watchEffect } from 'vue';
 import {
   defenseCapacityFn,
-  enemyStatsFn,
+  enemyStatFn,
   militaryPowerFn,
 } from '@/utils/algorithms';
 import { useAppStore } from '@/store/app.store';
@@ -60,17 +69,17 @@ const enemy = computed(() => {
   return {
     name: countryNames[appStore.enemy],
     // TODO add random
-    population: 18000,
-    budget: 68400,
-    income: 180,
+    population: 5400 * enemyStatFn(appStore.enemy + 1, 1, 0),
+    budget: 22800 * enemyStatFn(appStore.enemy + 1, 1, 0),
+    income: 60 * enemyStatFn(appStore.enemy + 1, 1, 0),
     military: {
       // TODO fix coefficients
-      1: enemyStatsFn(appStore.enemy, 1, 1),
-      2: enemyStatsFn(appStore.enemy, 3.5, 1),
-      3: enemyStatsFn(appStore.enemy, 7, 1),
-      4: enemyStatsFn(appStore.enemy, 15, -0.9),
-      5: enemyStatsFn(appStore.enemy, 100, -0.9),
-      6: enemyStatsFn(appStore.enemy, 1000, -0.5),
+      1: enemyStatFn(appStore.enemy, 1, +1),
+      2: enemyStatFn(appStore.enemy, 1.6, +1),
+      3: enemyStatFn(appStore.enemy, 2.4, +1),
+      4: enemyStatFn(appStore.enemy, 10, 0),
+      5: enemyStatFn(appStore.enemy, 18, 0),
+      6: enemyStatFn(appStore.enemy, 400, 0),
     },
   };
 });
@@ -81,33 +90,54 @@ const defenseCapability = computed(() =>
   )
 );
 
-// watchEffect(() => {
-//   console.log(enemy.value.military, appStore.militaryPower);
-// });
-
 const attack = () => {
   const random = Math.random() * 100;
-  if (random > defenseCapability.value) {
-    appStore.enemy += 1;
-    const budgetProfit = Math.floor(
-      Math.random() * (enemy.value.budget - enemy.value.budget / 2) +
-        enemy.value.income / 2
-    );
-    const incomeProfit = Math.floor(
-      Math.random() * (enemy.value.income - enemy.value.income / 2) +
-        enemy.value.income / 2
-    );
+  const isWin = random > defenseCapability.value;
+
+  appStore.stats.conflicts += 1;
+  isWin ? (appStore.stats.wins += 1) : (appStore.stats.loses += 1);
+
+  const militaryLoss = {
+    // TODO check military loss
+    1: Math.round(Math.random() * appStore.military[1] * (isWin ? 0.1 : 0.3)),
+    2: Math.round(Math.random() * appStore.military[2] * (isWin ? 0.1 : 0.3)),
+    3: Math.round(Math.random() * appStore.military[3] * (isWin ? 0.1 : 0.3)),
+    4: Math.round(Math.random() * appStore.military[4] * (isWin ? 0.1 : 0.3)),
+    5: Math.round(Math.random() * appStore.military[5] * (isWin ? 0.1 : 0.3)),
+    // 6: Math.round(Math.random() * appStore.military[6] * (isWin ? 0.1 : 0.3)),
+  };
+
+  if (isWin) {
+    const budgetProfit = Math.floor((Math.random() * enemy.value.budget) / 2);
+    const incomeProfit = Math.floor((Math.random() * enemy.value.income) / 2);
     const populationProfit = Math.floor(
-      Math.random() * (enemy.value.population - enemy.value.population / 2) +
-        enemy.value.population / 2
+      (Math.random() * enemy.value.population) / 2
     );
-    // TODO stats update
+    appStore.enemy += 1;
+    appStore.money += budgetProfit;
+    appStore.income += incomeProfit;
+    appStore.population += populationProfit;
+    appStore.stats.industryCaptured += Math.round(
+      (Math.random() * appStore.enemy) / 2 + 1
+    );
     modalStore.openModal({
       header: 'Победа',
-      content: `В ходе операции вам удалось захватить часть территорий противника. Бюджет страны увеличен на ${budgetProfit} руб, прирост бюджета увеличен на ${incomeProfit} руб, население увеличено на ${populationProfit} человек.`,
+      content: `
+        <p style='font-size: 150%'>Награда</p>
+        <span>В ходе операции вам удалось захватить часть территорий противника. Бюджет страны увеличен на ${budgetProfit} руб, прирост бюджета увеличен на ${incomeProfit} руб, население увеличено на ${populationProfit} человек.</span>
+        <p style='font-size: 150%'>Потери</p>
+        <span>Потери вашей армии составили: ${militaryLoss[1]} ед. танковых дивизий, ${militaryLoss[2]} ед. авиационных эскадр, ${militaryLoss[3]} ед. ракетных комплексов, ${militaryLoss[4]} ед. подводных лодок, ${militaryLoss[5]} ед. тяжелых крейсеров.</span>
+      `,
     });
   } else {
-    console.log('lose');
+    modalStore.openModal({
+      header: 'Поражение',
+      content: `
+        <span>Противнику удалось отбить вашу атаку, операция провалена.</span>
+        <p style='font-size: 150%'>Потери</p>
+        <span>Потери вашей армии составили: ${militaryLoss[1]} ед. танковых дивизий, ${militaryLoss[2]} ед. авиационных эскадр, ${militaryLoss[3]} ед. ракетных комплексов, ${militaryLoss[4]} ед. подводных лодок, ${militaryLoss[5]} ед. тяжелых крейсеров.</span>
+      `,
+    });
   }
 };
 </script>

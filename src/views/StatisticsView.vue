@@ -34,19 +34,27 @@ import { computed } from 'vue';
 
 const appStore = useAppStore();
 const { stats, population, military } = storeToRefs(appStore);
+
 const status = computed(() => {
-  // TODO change names
   switch (true) {
-    case population.value < 10000:
+    case population.value < 15000:
       return 'Миниполис';
-    case population.value < 100000:
-      return 'Малый город';
-    case population.value < 1000000:
-      return 'Город';
-    case population.value < 10000000:
+    case population.value < 35000:
+      return 'Полис';
+    case population.value < 70000:
       return 'Мегаполис';
-    case population.value < 100000000:
-      return 'Метрополис';
+    case population.value < 120000:
+      return 'Сателлит';
+    case population.value < 250000:
+      return 'Автономия';
+    case population.value < 500000:
+      return 'Республика';
+    case population.value < 1000000:
+      return 'Конфедерация';
+    case population.value < 2000000:
+      return 'Федерация';
+    case population.value > 2000000:
+      return 'Империя';
     default:
       return '';
   }

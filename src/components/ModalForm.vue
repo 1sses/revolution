@@ -17,7 +17,7 @@
         }"
       >
         <h2 class="header">{{ header }}</h2>
-        <div class="content">{{ content }}</div>
+        <div class="content" v-html="content" />
         <button class="close-button" @click="modalStore.closeModal()" />
       </div>
     </div>
@@ -62,25 +62,26 @@ const { isOpen, header, content } = storeToRefs(modalStore);
   background-repeat: no-repeat;
 
   .header {
-    font-size: 500%;
+    font-size: 400%;
     text-align: center;
     margin: 2% 0;
   }
 
   .content {
-    font-size: 230%;
-    margin: 15% 0;
+    font-size: 180%;
+    margin: 10% 0;
   }
 
   .close-button {
     position: absolute;
     top: -4%;
     right: -2%;
-    width: 8rem;
-    height: 8rem;
+    width: 13%;
+    aspect-ratio: 1/1;
     background: url('../assets/close-btn.png') no-repeat;
     background-size: 100% 100%;
     border: none;
+    border-radius: 50%;
     cursor: pointer;
   }
 }

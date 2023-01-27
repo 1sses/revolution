@@ -34,7 +34,7 @@ defineProps<IProps>();
 
   .button {
     display: block;
-    padding: 10%;
+    padding: 13%;
     font-size: 140%;
     width: 100%;
     aspect-ratio: 1/1;

@@ -186,7 +186,7 @@ body {
 
     .page-title {
       position: relative;
-      top: 13%;
+      top: 15%;
       right: 20%;
       margin: 2% 0;
       font-size: 180%;

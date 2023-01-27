@@ -42,7 +42,7 @@ const computedValue = computed(() => (props.value / 100) * 94 + 1);
     width: 4%;
     height: 140%;
     border-radius: 5px;
-    background: black;
+    background: #030303;
   }
 
   .side-label {

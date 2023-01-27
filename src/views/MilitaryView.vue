@@ -1,7 +1,7 @@
 <template>
   <section>
     <h2 class="title">Угроза вторжения</h2>
-    <SliderLine :value="85" />
+    <SliderLine :value="threatOfInvasion" />
     <h2 class="title" style="margin-top: 5%">Угроза атомной бомбардировки</h2>
     <SliderLine :value="13" />
     <div class="military-items">
@@ -24,9 +24,15 @@ import { useAppStore } from '@/store/app.store';
 import { useModalStore } from '@/store/modal.store';
 import { militaryItemsTemplate as military } from '@/data/military';
 import SliderLine from '@/components/SliderLine.vue';
+import { computed } from 'vue';
 
 const appStore = useAppStore();
 const modalStore = useModalStore();
+
+const threatOfInvasion = computed(() => {
+  const coefficient = appStore.income / appStore.militaryPower / 3;
+  return coefficient > 100 ? 100 : coefficient;
+});
 
 const handleIndustryClick = (item) => {
   const index = military.findIndex(

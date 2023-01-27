@@ -9,8 +9,9 @@ export const militaryPowerFn = (military: Record<number, number>) => {
   );
 };
 
-export const enemyStatsFn = (x: number, coefficient: number, fix: number) =>
-  Math.ceil(Math.pow(x, 13 / 10) / coefficient + fix);
+export const enemyStatFn = (x: number, coefficient: number, fix: number) =>
+  // Math.ceil(Math.pow(x, 13 / 10) / coefficient + fix);
+  Math.round((1.4 * x) / coefficient + fix);
 
 export const defenseCapacityFn = (x: number) => {
   const coefficient = 8 * Math.cbrt(x - 99.5) + 50;
