@@ -4,7 +4,6 @@ import IndustryView from '@/views/IndustryView.vue';
 import FoodView from '@/views/FoodView.vue';
 import MilitaryView from '@/views/MilitaryView.vue';
 import EnemyView from '@/views/EnemyView.vue';
-import { ref } from 'vue';
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -53,16 +52,6 @@ export const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-});
-
-export const transitionName = ref('slide-right');
-router.beforeEach((to, from, next) => {
-  if (to.meta.order < from.meta.order) {
-    // transitionName.value = "slide-left";
-  } else {
-    // transitionName.value = "slide-right";
-  }
-  next();
 });
 
 export default router;

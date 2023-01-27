@@ -13,29 +13,29 @@
       </h3>
       <h3 class="page-title">{{ route.meta.title }}</h3>
     </header>
-    <router-view v-slot="{ Component, route }">
-      <transition :name="transitionName" mode="out-in">
-        <div id="page" class="page">
-          <component :key="route.name" :is="Component" />
-          <img
-            src="./assets/slider.png"
-            alt="slider"
-            class="slider"
-            :style="{ left: sliderPosition }"
-          />
-        </div>
-      </transition>
-    </router-view>
+    <div id="page" class="page">
+      <router-view v-slot="{ Component }">
+        <transition :name="transitionName" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+      <img
+        src="./assets/slider.png"
+        alt="slider"
+        class="slider"
+        :style="{ left: sliderPosition }"
+      />
+    </div>
   </main>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, reactive } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useAppStore } from '@/store/app.store';
 import Hammer from 'hammerjs';
-import { routes, transitionName } from '@/router';
+import { routes } from '@/router';
 import ModalForm from '@/components/ModalForm.vue';
 import { decrypt, encrypt } from '@/utils/crypto';
 
@@ -63,6 +63,7 @@ onMounted(() => {
 });
 
 // SWIPE
+const transitionName = ref('slide-right');
 onMounted(() => {
   const page = document.getElementById('page');
   if (!page) return;
@@ -72,13 +73,14 @@ onMounted(() => {
 
   manager.on('swipeleft', () => {
     const next = routes.find((r) => r.meta?.order === route.meta.order + 1);
-    if (next) router.push(next.path);
     transitionName.value = 'slide-left';
+    if (next) router.push(next.path);
   });
   manager.on('swiperight', () => {
     const prev = routes.find((r) => r.meta?.order === route.meta.order - 1);
-    if (prev) router.push(prev.path);
     transitionName.value = 'slide-right';
+    console.log(prev);
+    if (prev) router.push(prev.path);
   });
 });
 
@@ -217,22 +219,20 @@ body {
 .slide-left-leave-active,
 .slide-right-enter-active,
 .slide-right-leave-active {
-  transition-duration: 0.5s;
-  transition-property: height, opacity, transform;
-  transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
-  overflow: hidden;
+  transition-duration: 0.1s;
+  transition-property: opacity, transform;
+  transition-timing-function: linear;
 }
 
-.slide-left-enter,
+.slide-left-enter-from,
 .slide-right-leave-active {
-  background: red;
-  opacity: 0;
-  transform: translate(2em, 0);
+  opacity: 0.5;
+  transform: translate(7%, 0);
 }
 
 .slide-left-leave-active,
-.slide-right-enter {
-  opacity: 0;
-  transform: translate(-2em, 0);
+.slide-right-enter-from {
+  opacity: 0.5;
+  transform: translate(-7%, 0);
 }
 </style>
