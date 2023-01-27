@@ -79,7 +79,6 @@ onMounted(() => {
   manager.on('swiperight', () => {
     const prev = routes.find((r) => r.meta?.order === route.meta.order - 1);
     transitionName.value = 'slide-right';
-    console.log(prev);
     if (prev) router.push(prev.path);
   });
 });

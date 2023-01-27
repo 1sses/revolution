@@ -41,6 +41,7 @@ defineProps<IProps>();
     border: none;
     background: url('../assets/square-button-bg.png');
     background-size: contain;
+    //box-shadow: 0 0 10px black;
     cursor: pointer;
   }
 

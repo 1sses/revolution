@@ -34,14 +34,14 @@ const computedValue = computed(() => (props.value / 100) * 94 + 1);
     rgba(225, 0, 25, 1) 100%
   );
   border: 1px solid black;
-  box-shadow: 0 0 10px black;
-  border-radius: 10px;
+  box-shadow: 0 0 8px black;
+  border-radius: 2% / 25%;
 
   .value-slider {
     position: absolute;
     width: 4%;
     height: 140%;
-    border-radius: 5px;
+    border-radius: 25% / 10%;
     background: #030303;
   }
 
