@@ -4,7 +4,10 @@
     <InfoItem label="Предприятий построено:" :value="stats.industryBuilt" />
     <InfoItem label="Сформировано ВС:" :value="stats.militaryBuilt" />
     <InfoItem label="Атомное оружие:" :value="military[6] > 0 ? 'Да' : 'Нет'" />
-    <h2 class="green title" style="text-align: center; margin-top: 5%">
+    <h2
+      class="green title"
+      style="text-align: center; margin-top: 5%; font-size: 250%"
+    >
       Статус:
     </h2>
     <h1 class="status-name" style="text-align: center">{{ status }}</h1>
@@ -66,7 +69,7 @@ section {
   width: 100%;
 
   .title {
-    font-size: 250%;
+    font-size: 230%;
     margin-bottom: 3%;
   }
 

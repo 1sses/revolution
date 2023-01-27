@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h2 class="title">Угроза вторжения</h2>
+    <h2 class="title" style="margin-top: 1%">Угроза вторжения</h2>
     <SliderLine :value="threatOfInvasion" />
     <h2 class="title" style="margin-top: 5%">Угроза атомной бомбардировки</h2>
     <SliderLine :value="13" />

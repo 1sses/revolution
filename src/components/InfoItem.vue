@@ -22,6 +22,6 @@ defineProps<IProps>();
   justify-content: space-between;
   align-items: center;
   margin: 1.5% 0;
-  font-size: 200%;
+  font-size: 180%;
 }
 </style>

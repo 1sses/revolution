@@ -148,6 +148,7 @@ body {
 }
 
 .main {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -186,11 +187,13 @@ body {
     }
 
     .page-title {
-      position: relative;
-      top: 15%;
-      right: 20%;
+      position: absolute;
+      top: 15.2%;
+      left: 10%;
       margin: 2% 0;
+      width: 56%;
       font-size: 180%;
+      text-align: center;
     }
   }
 
@@ -201,13 +204,14 @@ body {
     align-items: center;
     width: 100%;
     height: 100%;
-    margin-top: 9%;
+    margin-top: 16%;
     padding: 0 12%;
 
     .slider {
       position: absolute;
       bottom: 4.5%;
       width: 17%;
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
       transition: left 0.2s;
     }
   }

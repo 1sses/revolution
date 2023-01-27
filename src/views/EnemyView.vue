@@ -44,7 +44,7 @@
       Обороноспособность страны
     </h2>
     <SliderLine :value="defenseCapability" />
-    <WideButton text="Атаковать" style="margin-top: 5%" @btn-click="attack" />
+    <WideButton text="Атаковать" style="margin-top: 7%" @btn-click="attack" />
   </section>
 </template>
 
@@ -148,12 +148,12 @@ section {
   height: 95%;
 
   .title {
-    font-size: 250%;
+    font-size: 230%;
     margin-bottom: 3%;
   }
 
   .country-name {
-    margin: 0 0 5%;
+    margin: -2% 0 5%;
     font-size: 500%;
     font-weight: 400;
   }
