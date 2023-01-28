@@ -38,67 +38,27 @@ import Hammer from 'hammerjs';
 import { routes } from '@/router';
 import ModalForm from '@/components/ModalForm.vue';
 import { decrypt, encrypt } from '@/utils/crypto';
+import { useFullSpace } from '@/composable/useFullSpace';
+import { usePageSwipe } from '@/composable/usePageSwipe';
 
 const router = useRouter();
 const route = useRoute();
-
-// SIZE
-const sizes = reactive({
-  width: '',
-  height: '',
-});
-const computeSizes = () => {
-  const aspectRatio = 1600 / 2560;
-  if (window.innerWidth / window.innerHeight > aspectRatio) {
-    sizes.width = window.innerHeight * aspectRatio + 'px';
-    sizes.height = window.innerHeight + 'px';
-  } else {
-    sizes.width = window.innerWidth + 'px';
-    sizes.height = window.innerWidth / aspectRatio + 'px';
-  }
-};
-onMounted(() => {
-  computeSizes();
-  window.addEventListener('resize', computeSizes);
-});
-
-// SWIPE
-const transitionName = ref('slide-right');
-onMounted(() => {
-  const page = document.getElementById('page');
-  if (!page) return;
-  const manager = new Hammer.Manager(page);
-  const Swipe = new Hammer.Swipe();
-  manager.add(Swipe);
-
-  manager.on('swipeleft', () => {
+const { sizes } = useFullSpace(1600 / 2560);
+const { transitionName } = usePageSwipe(
+  'page',
+  () => {
     const next = routes.find((r) => r.meta?.order === route.meta.order + 1);
-    transitionName.value = 'slide-left';
     if (next) router.push(next.path);
-  });
-  manager.on('swiperight', () => {
+  },
+  () => {
     const prev = routes.find((r) => r.meta?.order === route.meta.order - 1);
-    transitionName.value = 'slide-right';
     if (prev) router.push(prev.path);
-  });
-});
-
-const sliderPosition = computed(() => {
-  switch (route.meta.order) {
-    case 1:
-      return '12%';
-    case 2:
-      return '23%';
-    case 3:
-      return '40%';
-    case 4:
-      return '57%';
-    case 5:
-      return '66%';
-    default:
-      return '0%';
   }
-});
+);
+
+const sliderPosition = computed(
+  () => ['12%', '25%', '40%', '52%', '66%'][route.meta.order - 1]
+);
 
 const appStore = useAppStore();
 const { money, income, population, food } = storeToRefs(appStore);
