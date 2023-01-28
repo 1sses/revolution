@@ -36,6 +36,11 @@ const handleFoodClick = (item) => {
       ? appStore.food + item.income.value
       : appStore.food * (1 + item.income.value / 100)
   );
+  // end famine
+  if (appStore.food > 0) {
+    appStore.famine.isNotified = false;
+    appStore.famine.status = 0;
+  }
 };
 </script>
 

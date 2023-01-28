@@ -4,9 +4,13 @@ import { militaryPowerFn } from '@/utils/algorithms';
 export const useAppStore = defineStore('app', {
   state: () => ({
     money: 250000000,
-    income: 10,
+    netIncome: 10,
     population: 8000,
-    food: 100000,
+    food: 10000,
+    famine: {
+      isNotified: false,
+      status: 0,
+    },
     industry: [0, 0, 0, 0, 0, 0, 0, 0, 0],
     military: [2, 1, 2, 0, 0, 10],
     enemy: 0,
@@ -19,10 +23,14 @@ export const useAppStore = defineStore('app', {
       industryCaptured: 0,
       industryLost: 0,
       populationDiedInConflicts: 0,
-      populationDiedFromStarving: 0,
+      populationDiedFromFamine: 0,
     },
   }),
   getters: {
+    income: (state) =>
+      state.famine.status === 0
+        ? state.netIncome
+        : Math.round(state.netIncome / 2),
     militaryPower: (state) => militaryPowerFn(state.military),
   },
 });

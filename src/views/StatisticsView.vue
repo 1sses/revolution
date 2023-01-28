@@ -24,7 +24,7 @@
     />
     <InfoItem
       label="Прогибло от голода:"
-      :value="stats.populationDiedFromStarving"
+      :value="stats.populationDiedFromFamine"
     />
   </section>
 </template>

@@ -52,7 +52,7 @@
 import SliderLine from '@/components/SliderLine.vue';
 import InfoItem from '@/components/InfoItem.vue';
 import WideButton from '@/components/WideButton.vue';
-import { computed, watchEffect } from 'vue';
+import { computed } from 'vue';
 import {
   defenseCapacityFn,
   enemyStatFn,
@@ -80,14 +80,6 @@ const enemy = computed(() => {
         item.statsGeneratorFix
       )
     ),
-    // military: [
-    //   enemyStatFn(appStore.enemy, 1, +1),
-    //   enemyStatFn(appStore.enemy, 1.6, +1),
-    //   enemyStatFn(appStore.enemy, 2.4, +1),
-    //   enemyStatFn(appStore.enemy, 10, 0),
-    //   enemyStatFn(appStore.enemy, 18, 0),
-    //   enemyStatFn(appStore.enemy, 400, 0),
-    // ],
   };
 });
 
@@ -128,7 +120,7 @@ const attack = () => {
     );
     appStore.enemy += 1;
     appStore.money += budgetProfit;
-    appStore.income += incomeProfit;
+    appStore.netIncome += incomeProfit;
     appStore.population += populationProfit;
     appStore.stats.industryCaptured += Math.round(
       (Math.random() * appStore.enemy) / 2 + 1
