@@ -3,7 +3,7 @@
     <h2 class="title" style="margin-top: 1%">Угроза вторжения</h2>
     <SliderLine :value="threatOfInvasion" />
     <h2 class="title" style="margin-top: 5%">Угроза атомной бомбардировки</h2>
-    <SliderLine :value="13" />
+    <SliderLine :value="15" />
     <div class="military-items">
       <SquareButton
         v-for="(item, i) in military"
@@ -30,7 +30,7 @@ const appStore = useAppStore();
 const modalStore = useModalStore();
 
 const threatOfInvasion = computed(() => {
-  const coefficient = appStore.income / appStore.militaryPower / 3;
+  const coefficient = appStore.netIncome / appStore.militaryPower / 2;
   return coefficient > 100 ? 100 : coefficient;
 });
 
@@ -58,7 +58,7 @@ section {
   height: 95%;
 
   .title {
-    font-size: 180%;
+    font-size: 200%;
   }
 
   .military-items {

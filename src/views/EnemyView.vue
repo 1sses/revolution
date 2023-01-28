@@ -90,6 +90,15 @@ const defenseCapability = computed(() =>
 );
 
 const attack = () => {
+  if (defenseCapability.value > 85) {
+    modalStore.openModal({
+      header: 'Перевес сил',
+      content:
+        'Армия противника имеет слишком большой перевес сил.' +
+        ' Отправять сейчас солдат в атаку - значит отправлять их нас смерть, мы не можем так поступить.',
+    });
+    return;
+  }
   const random = Math.random() * 100;
   const isWin = random > defenseCapability.value;
 
@@ -97,11 +106,12 @@ const attack = () => {
   isWin ? (appStore.stats.wins += 1) : (appStore.stats.loses += 1);
 
   const militaryLoss = [
-    Math.round(Math.random() * appStore.military[0] * (isWin ? 0.2 : 1)),
-    Math.round(Math.random() * appStore.military[1] * (isWin ? 0.2 : 1)),
-    Math.round(Math.random() * appStore.military[2] * (isWin ? 0.2 : 1)),
-    Math.round(Math.random() * appStore.military[3] * (isWin ? 0.2 : 1)),
-    Math.round(Math.random() * appStore.military[4] * (isWin ? 0.2 : 1)),
+    // TODO fix coefficients
+    Math.round(Math.random() * appStore.military[0] * (isWin ? 0.2 : 0.8)),
+    Math.round(Math.random() * appStore.military[1] * (isWin ? 0.2 : 0.8)),
+    Math.round(Math.random() * appStore.military[2] * (isWin ? 0.2 : 0.8)),
+    Math.round(Math.random() * appStore.military[3] * (isWin ? 0.2 : 0.8)),
+    Math.round(Math.random() * appStore.military[4] * (isWin ? 0.2 : 0.8)),
     // Math.round(Math.random() * appStore.military[5] * (isWin ? 0.2 : 1)),
   ];
   for (let i = 0; i < 5; i++) {

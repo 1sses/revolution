@@ -127,6 +127,9 @@ const famineHandler = () => {
     appStore.stats.industryLost += Math.round(
       appStore.industry.reduce((acc, cur) => acc + cur, 0) * industryPercentLost
     );
+    appStore.stats.populationDiedInConflicts += Math.round(
+      appStore.population * populationPercentLost * (Math.random() * 0.2 + 0.1)
+    );
     modalStore.openModal({
       header: 'Ситуация ухудшается',
       content: `
@@ -149,6 +152,9 @@ const famineHandler = () => {
     appStore.stats.industryLost += Math.round(
       appStore.industry.reduce((acc, cur) => acc + cur, 0) * industryPercentLost
     );
+    appStore.stats.populationDiedInConflicts += Math.round(
+      appStore.population * populationPercentLost * (Math.random() * 0.2 + 0.1)
+    );
     modalStore.openModal({
       header: 'Революция на пороге',
       content: `
@@ -164,7 +170,7 @@ const famineHandler = () => {
     modalStore.openModal({
       header: 'Революция',
       content: `
-      <p>Гнев народа не знвет границ, страну охватило пламя революции.
+      <p>Гнев народа не знает границ, страну охватило пламя революции.
       И это пламя уже не сбить даже армией, республики больше не подчиняются вам.</p>
       <p>Под контролем остался только столичный регион, предприятия проданы в счет погашения долгов и для импорта продовольствия.
       Армия сокращена, все достижения списаны.</p>

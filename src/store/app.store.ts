@@ -3,16 +3,16 @@ import { militaryPowerFn } from '@/utils/algorithms';
 
 export const useAppStore = defineStore('app', {
   state: () => ({
-    money: 250000000,
+    money: 25000,
     netIncome: 10,
     population: 8000,
-    food: 10000,
+    food: 100000,
     famine: {
       isNotified: false,
       status: 0,
     },
     industry: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    military: [2, 1, 2, 0, 0, 10],
+    military: [2, 1, 2, 0, 0, 0],
     enemy: 0,
     stats: {
       industryBuilt: 0,

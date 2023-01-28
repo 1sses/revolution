@@ -24,14 +24,14 @@ export const militaryItemsTemplate = [
     label: 'Подводная лодка',
     cost: 1500000,
     powerCoefficient: 15,
-    statsGeneratorCoefficient: 7, // 10
+    statsGeneratorCoefficient: 7,
     statsGeneratorFix: 0,
   },
   {
     label: 'Тяжелый крейсер',
     cost: 10000000,
     powerCoefficient: 100,
-    statsGeneratorCoefficient: 14, // 18
+    statsGeneratorCoefficient: 14,
     statsGeneratorFix: 0,
   },
   {

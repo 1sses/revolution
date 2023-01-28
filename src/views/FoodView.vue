@@ -38,8 +38,8 @@ const handleFoodClick = (item) => {
   );
   // end famine
   if (appStore.food > 0) {
-    appStore.famine.isNotified = false;
     appStore.famine.status = 0;
+    appStore.famine.isNotified = false;
   }
 };
 </script>
