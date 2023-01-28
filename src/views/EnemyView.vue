@@ -17,28 +17,28 @@
     <h2 class="title green" style="margin-top: 5%">Данные об армии</h2>
     <InfoItem
       label="Танковая дивизия:"
-      :value="`${enemy.military[1]} в строю`"
+      :value="`${enemy.military[0]} в строю`"
     />
     <InfoItem
       label="Авиационная эскадрилья:"
-      :value="`${enemy.military[2]} в строю`"
+      :value="`${enemy.military[1]} в строю`"
     />
     <InfoItem
       label="Ракетный комплекс:"
-      :value="`${enemy.military[3]} в строю`"
+      :value="`${enemy.military[2]} в строю`"
     />
     <InfoItem
       label="Подводная лодка:"
-      :value="`${enemy.military[4]} в строю`"
+      :value="`${enemy.military[3]} в строю`"
       style="margin-top: 5%"
     />
     <InfoItem
       label="Тяжелый крейсер:"
-      :value="`${enemy.military[5]} в строю`"
+      :value="`${enemy.military[4]} в строю`"
     />
     <InfoItem
       label="Атомная бомба:"
-      :value="`${enemy.military[6]} единиц(ы)`"
+      :value="`${enemy.military[5]} единиц(ы)`"
     />
     <h2 class="title green" style="margin-top: 5%">
       Обороноспособность страны
@@ -68,19 +68,18 @@ const modalStore = useModalStore();
 const enemy = computed(() => {
   return {
     name: countryNames[appStore.enemy],
-    // TODO add random
+    // TODO fix coefficients
     population: 5400 * enemyStatFn(appStore.enemy + 1, 1, 0),
     budget: 22800 * enemyStatFn(appStore.enemy + 1, 1, 0),
     income: 60 * enemyStatFn(appStore.enemy + 1, 1, 0),
-    military: {
-      // TODO fix coefficients
-      1: enemyStatFn(appStore.enemy, 1, +1),
-      2: enemyStatFn(appStore.enemy, 1.6, +1),
-      3: enemyStatFn(appStore.enemy, 2.4, +1),
-      4: enemyStatFn(appStore.enemy, 10, 0),
-      5: enemyStatFn(appStore.enemy, 18, 0),
-      6: enemyStatFn(appStore.enemy, 400, 0),
-    },
+    military: [
+      enemyStatFn(appStore.enemy, 1, +1),
+      enemyStatFn(appStore.enemy, 1.6, +1),
+      enemyStatFn(appStore.enemy, 2.4, +1),
+      enemyStatFn(appStore.enemy, 10, 0),
+      enemyStatFn(appStore.enemy, 18, 0),
+      enemyStatFn(appStore.enemy, 400, 0),
+    ],
   };
 });
 
@@ -97,19 +96,20 @@ const attack = () => {
   appStore.stats.conflicts += 1;
   isWin ? (appStore.stats.wins += 1) : (appStore.stats.loses += 1);
 
-  const militaryLoss = {
-    1: Math.round(Math.random() * appStore.military[1] * (isWin ? 0.2 : 1)),
-    2: Math.round(Math.random() * appStore.military[2] * (isWin ? 0.2 : 1)),
-    3: Math.round(Math.random() * appStore.military[3] * (isWin ? 0.2 : 1)),
-    4: Math.round(Math.random() * appStore.military[4] * (isWin ? 0.2 : 1)),
-    5: Math.round(Math.random() * appStore.military[5] * (isWin ? 0.2 : 1)),
-  };
-  for (let i = 1; i <= 5; i++) {
+  const militaryLoss = [
+    Math.round(Math.random() * appStore.military[0] * (isWin ? 0.2 : 1)),
+    Math.round(Math.random() * appStore.military[1] * (isWin ? 0.2 : 1)),
+    Math.round(Math.random() * appStore.military[2] * (isWin ? 0.2 : 1)),
+    Math.round(Math.random() * appStore.military[3] * (isWin ? 0.2 : 1)),
+    Math.round(Math.random() * appStore.military[4] * (isWin ? 0.2 : 1)),
+    // Math.round(Math.random() * appStore.military[5] * (isWin ? 0.2 : 1)),
+  ];
+  for (let i = 0; i < 5; i++) {
     appStore.military[i] -= militaryLoss[i];
   }
-  if (appStore.military[1] === 0) {
-    appStore.military[1] = 1;
-    militaryLoss[1] -= 1;
+  if (appStore.military[0] === 0) {
+    appStore.military[0] = 1;
+    militaryLoss[0] -= 1;
   }
 
   if (isWin) {
@@ -131,16 +131,25 @@ const attack = () => {
         <p style='font-size: 150%'>Награда</p>
         <span>В ходе операции вам удалось захватить часть территорий противника. Бюджет страны увеличен на ${budgetProfit} руб, прирост бюджета увеличен на ${incomeProfit} руб, население увеличено на ${populationProfit} человек.</span>
         <p style='font-size: 150%'>Потери</p>
-        <span>Потери вашей армии составили: ${militaryLoss[1]} ед. танковых дивизий, ${militaryLoss[2]} ед. авиационных эскадр, ${militaryLoss[3]} ед. ракетных комплексов, ${militaryLoss[4]} ед. подводных лодок, ${militaryLoss[5]} ед. тяжелых крейсеров.</span>
+        <span>Потери вашей армии составили: ${militaryLoss[0]} ед. танковых дивизий, ${militaryLoss[1]} ед. авиационных эскадр, ${militaryLoss[2]} ед. ракетных комплексов, ${militaryLoss[3]} ед. подводных лодок, ${militaryLoss[4]} ед. тяжелых крейсеров.</span>
       `,
     });
+    if (appStore.enemy === countryNames.length) {
+      modalStore.openModal({
+        header: 'Победа',
+        content: `
+          Поздравляем, вы захватили сильнейшую страну и теперь являетесь таковой. Спасибо за ваше правление!
+        `,
+      });
+      appStore.$reset();
+    }
   } else {
     modalStore.openModal({
       header: 'Поражение',
       content: `
         <span>Противнику удалось отбить вашу атаку, операция провалена.</span>
         <p style='font-size: 150%'>Потери</p>
-        <span>Потери вашей армии составили: ${militaryLoss[1]} ед. танковых дивизий, ${militaryLoss[2]} ед. авиационных эскадр, ${militaryLoss[3]} ед. ракетных комплексов, ${militaryLoss[4]} ед. подводных лодок, ${militaryLoss[5]} ед. тяжелых крейсеров.</span>
+        <span>Потери вашей армии составили: ${militaryLoss[0]} ед. танковых дивизий, ${militaryLoss[1]} ед. авиационных эскадр, ${militaryLoss[2]} ед. ракетных комплексов, ${militaryLoss[3]} ед. подводных лодок, ${militaryLoss[4]} ед. тяжелых крейсеров.</span>
       `,
     });
   }

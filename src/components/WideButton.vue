@@ -1,5 +1,5 @@
 <template>
-  <div class="square-button-wrapper">
+  <div class="wide-button-wrapper">
     <button class="button green" @click="$emit('btn-click')">
       {{ text }}
     </button>
@@ -17,7 +17,7 @@ defineProps<IProps>();
 </script>
 
 <style scoped lang="scss">
-.square-button-wrapper {
+.wide-button-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;

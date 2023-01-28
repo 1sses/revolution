@@ -1,11 +1,11 @@
 export const militaryPowerFn = (military: Record<number, number>) => {
   return (
-    military[1] +
-    military[2] * 3.5 +
-    military[3] * 7 +
-    military[4] * 15 +
-    military[5] * 100 +
-    military[6] * 1000
+    military[0] +
+    military[1] * 3.5 +
+    military[2] * 7 +
+    military[3] * 15 +
+    military[4] * 100 +
+    military[5] * 1000
   );
 };
 

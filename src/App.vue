@@ -12,6 +12,9 @@
         {{ food.toLocaleString() }}
       </h3>
       <h3 class="page-title">{{ route.meta.title }}</h3>
+      <button class="main-menu-btn green" @click="mainMenuHandler">
+        Главное меню
+      </button>
     </header>
     <div id="page" class="page">
       <router-view v-slot="{ Component }">
@@ -34,15 +37,18 @@ import { computed, onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useAppStore } from '@/store/app.store';
-import Hammer from 'hammerjs';
 import { routes } from '@/router';
 import ModalForm from '@/components/ModalForm.vue';
 import { decrypt, encrypt } from '@/utils/crypto';
 import { useFullSpace } from '@/composable/useFullSpace';
 import { usePageSwipe } from '@/composable/usePageSwipe';
+import { useModalStore } from '@/store/modal.store';
+import WideButton from '@/components/WideButton.vue';
 
 const router = useRouter();
 const route = useRoute();
+const appStore = useAppStore();
+const modalStore = useModalStore();
 const { sizes } = useFullSpace(1600 / 2560);
 const { transitionName } = usePageSwipe(
   'page',
@@ -56,12 +62,11 @@ const { transitionName } = usePageSwipe(
   }
 );
 
+const { money, income, population, food } = storeToRefs(appStore);
+
 const sliderPosition = computed(
   () => ['12%', '25%', '40%', '52%', '66%'][route.meta.order - 1]
 );
-
-const appStore = useAppStore();
-const { money, income, population, food } = storeToRefs(appStore);
 
 try {
   const ls = localStorage.getItem('data');
@@ -83,6 +88,15 @@ appStore.$subscribe((mutation, state) => {
   const data = encrypt(JSON.stringify(state));
   localStorage.setItem('data', data);
 });
+
+const mainMenuHandler = () => {
+  modalStore.openModal({
+    header: 'Главное меню',
+    content: `
+      <MainMenu />
+    `,
+  });
+};
 </script>
 
 <style lang="scss">
@@ -154,6 +168,19 @@ body {
       width: 56%;
       font-size: 180%;
       text-align: center;
+    }
+
+    .main-menu-btn {
+      position: absolute;
+      top: 16.2%;
+      right: 10.7%;
+      width: 22%;
+      height: 2.5%;
+      border: none;
+      border-radius: 10px;
+      background: transparent;
+      font-size: 140%;
+      cursor: pointer;
     }
   }
 

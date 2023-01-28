@@ -1,6 +1,5 @@
 import { onMounted, ref } from 'vue';
 import Hammer from 'hammerjs';
-import { routes } from '@/router';
 
 export const usePageSwipe = (
   elementId: string,

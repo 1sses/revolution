@@ -17,7 +17,9 @@
         }"
       >
         <h2 class="header">{{ header }}</h2>
-        <div class="content" v-html="content" />
+        <div class="content">
+          <v-runtime-template :template="content" />
+        </div>
         <button class="close-button" @click="modalStore.closeModal()" />
       </div>
     </div>
@@ -28,6 +30,7 @@
 import { defineProps } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useModalStore } from '@/store/modal.store';
+import VRuntimeTemplate from 'vue3-runtime-template';
 
 interface IProps {
   width: string;
@@ -37,6 +40,11 @@ defineProps<IProps>();
 
 const modalStore = useModalStore();
 const { isOpen, header, content } = storeToRefs(modalStore);
+
+const startNewGame = () => {
+  console.log('start new game');
+  // appStore.$reset();
+};
 </script>
 
 <style scoped lang="scss">
@@ -64,12 +72,13 @@ const { isOpen, header, content } = storeToRefs(modalStore);
   .header {
     font-size: 400%;
     text-align: center;
-    margin: 2% 0;
+    margin: 1% 0 2%;
   }
 
   .content {
+    height: 80%;
     font-size: 180%;
-    margin: 10% 0;
+    margin: 12% 0;
   }
 
   .close-button {

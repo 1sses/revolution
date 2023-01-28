@@ -8,7 +8,7 @@
       <SquareButton
         v-for="(item, i) in military"
         :key="item.label"
-        :upper-text="`В строю: ${appStore.military[i + 1]}`"
+        :upper-text="`В строю: ${appStore.military[i]}`"
         :inner-text="item.label"
         :lower-text="item.cost.toLocaleString()"
         subtitle="рублей"
@@ -46,7 +46,7 @@ const handleIndustryClick = (item) => {
     });
     return;
   }
-  appStore.military[index + 1] += 1;
+  appStore.military[index] += 1;
   appStore.money -= item.cost;
   appStore.stats.militaryBuilt += 1;
 };

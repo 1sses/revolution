@@ -25,7 +25,7 @@ const modalStore = useModalStore();
 const industry = computed(() =>
   industryItemsTemplate.map((item, i) => ({
     ...item,
-    cost: Math.round(item.basicCost * Math.pow(1.1, appStore.industry[i + 1])),
+    cost: Math.round(item.basicCost * Math.pow(1.1, appStore.industry[i])),
   }))
 );
 
@@ -41,7 +41,7 @@ const handleIndustryClick = (item) => {
     });
     return;
   }
-  appStore.industry[index + 1] += 1;
+  appStore.industry[index] += 1;
   appStore.money -= item.cost;
   appStore.income = Math.round(
     item.income.type === 'plain'
@@ -49,8 +49,7 @@ const handleIndustryClick = (item) => {
       : appStore.income * (1 + item.income.value / 100)
   );
   appStore.population +=
-    item.basicPopulationIncome +
-    Math.floor(appStore.industry[index + 1] / 10) * 10; // TODO is this ok?
+    item.basicPopulationIncome + Math.floor(appStore.industry[index] / 10) * 10; // TODO is this ok?
   appStore.stats.industryBuilt += 1;
 };
 </script>
