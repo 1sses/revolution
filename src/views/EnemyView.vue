@@ -61,6 +61,7 @@ import {
 import { useAppStore } from '@/store/app.store';
 import { countryNames } from '@/data/countries';
 import { useModalStore } from '@/store/modal.store';
+import { militaryItemsTemplate } from '@/data/military';
 
 const appStore = useAppStore();
 const modalStore = useModalStore();
@@ -72,14 +73,21 @@ const enemy = computed(() => {
     population: 5400 * enemyStatFn(appStore.enemy + 1, 1, 0),
     budget: 22800 * enemyStatFn(appStore.enemy + 1, 1, 0),
     income: 60 * enemyStatFn(appStore.enemy + 1, 1, 0),
-    military: [
-      enemyStatFn(appStore.enemy, 1, +1),
-      enemyStatFn(appStore.enemy, 1.6, +1),
-      enemyStatFn(appStore.enemy, 2.4, +1),
-      enemyStatFn(appStore.enemy, 10, 0),
-      enemyStatFn(appStore.enemy, 18, 0),
-      enemyStatFn(appStore.enemy, 400, 0),
-    ],
+    military: militaryItemsTemplate.map((item) =>
+      enemyStatFn(
+        appStore.enemy,
+        item.statsGeneratorCoefficient,
+        item.statsGeneratorFix
+      )
+    ),
+    // military: [
+    //   enemyStatFn(appStore.enemy, 1, +1),
+    //   enemyStatFn(appStore.enemy, 1.6, +1),
+    //   enemyStatFn(appStore.enemy, 2.4, +1),
+    //   enemyStatFn(appStore.enemy, 10, 0),
+    //   enemyStatFn(appStore.enemy, 18, 0),
+    //   enemyStatFn(appStore.enemy, 400, 0),
+    // ],
   };
 });
 
@@ -127,6 +135,7 @@ const attack = () => {
     );
     modalStore.openModal({
       header: 'Победа',
+      showWoman: false,
       content: `
         <p style='font-size: 150%'>Награда</p>
         <span>В ходе операции вам удалось захватить часть территорий противника. Бюджет страны увеличен на ${budgetProfit} руб, прирост бюджета увеличен на ${incomeProfit} руб, население увеличено на ${populationProfit} человек.</span>

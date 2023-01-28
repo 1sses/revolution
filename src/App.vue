@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from 'vue';
+import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useAppStore } from '@/store/app.store';
@@ -43,7 +43,6 @@ import { decrypt, encrypt } from '@/utils/crypto';
 import { useFullSpace } from '@/composable/useFullSpace';
 import { usePageSwipe } from '@/composable/usePageSwipe';
 import { useModalStore } from '@/store/modal.store';
-import WideButton from '@/components/WideButton.vue';
 
 const router = useRouter();
 const route = useRoute();

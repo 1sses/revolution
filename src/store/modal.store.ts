@@ -5,17 +5,25 @@ export const useModalStore = defineStore('modal', {
     isOpen: false,
     header: '',
     content: '',
+    showWoman: true,
   }),
   actions: {
-    openModal({ header, content }: { header: string; content: string }) {
+    openModal({
+      header,
+      content,
+      showWoman = true,
+    }: {
+      header: string;
+      content: string;
+      showWoman?: boolean;
+    }) {
       this.isOpen = true;
       this.header = header;
       this.content = content;
+      this.showWoman = showWoman;
     },
     closeModal() {
       this.isOpen = false;
-      this.header = '';
-      this.content = '';
     },
   },
 });

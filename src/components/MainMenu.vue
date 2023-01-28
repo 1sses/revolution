@@ -3,7 +3,7 @@
     <WideButton
       text="Начать новую игру"
       style="height: 16%; font-size: 50%"
-      @btn-click="() => startNewGame()"
+      @btn-click="startNewGame"
     />
   </div>
 </template>
@@ -12,11 +12,14 @@
 import WideButton from '@/components/WideButton.vue';
 import { useAppStore } from '@/store/app.store';
 import { useModalStore } from '@/store/modal.store';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const appStore = useAppStore();
 const modalStore = useModalStore();
 const startNewGame = () => {
   appStore.$reset();
+  router.push('/stats');
   modalStore.closeModal();
 };
 </script>

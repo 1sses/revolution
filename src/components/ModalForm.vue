@@ -21,6 +21,12 @@
           <v-runtime-template :template="content" />
         </div>
         <button class="close-button" @click="modalStore.closeModal()" />
+        <img
+          v-show="showWoman"
+          class="modal-woman"
+          src="../assets/woman.png"
+          alt="woman"
+        />
       </div>
     </div>
   </div>
@@ -39,12 +45,7 @@ interface IProps {
 defineProps<IProps>();
 
 const modalStore = useModalStore();
-const { isOpen, header, content } = storeToRefs(modalStore);
-
-const startNewGame = () => {
-  console.log('start new game');
-  // appStore.$reset();
-};
+const { isOpen, header, content, showWoman } = storeToRefs(modalStore);
 </script>
 
 <style scoped lang="scss">
@@ -92,6 +93,14 @@ const startNewGame = () => {
     border: none;
     border-radius: 50%;
     cursor: pointer;
+  }
+
+  .modal-woman {
+    position: absolute;
+    bottom: -13%;
+    right: -5%;
+    width: 90%;
+    user-select: none;
   }
 }
 </style>
