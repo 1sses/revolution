@@ -46,6 +46,7 @@ import { decrypt, encrypt } from '@/utils/crypto';
 import { useFullSpace } from '@/composable/useFullSpace';
 import { usePageSwipe } from '@/composable/usePageSwipe';
 import { useModalStore } from '@/store/modal.store';
+import { countMilitaryLoss } from '@/utils/countMilitaryLoss';
 
 const router = useRouter();
 const route = useRoute();
@@ -202,14 +203,27 @@ const invasionHandler = () => {
     });
   }
   // invasion
-  const random = (Math.random() * 20000) / appStore.threatOfInvasion;
-  if (random < 1) {
+  if ((Math.random() * 20000) / appStore.threatOfInvasion < 1) {
+    const militaryLoss = countMilitaryLoss(appStore, [
+      Math.random() * 0.2 + 0.35,
+      Math.random() * 0.2 + 0.35,
+      Math.random() * 0.2 + 0.35,
+      Math.random() * 0.2 + 0.35,
+      Math.random() * 0.2 + 0.35,
+      Math.random() * 0.2 + 0.35,
+    ]);
     modalStore.openModal({
       header: 'Нападение',
       content: `
       На страну совершено нападение, часть территорий захвачена!
       <p style="font-size: 150%">Потери</p>
-
+      <span>Потери вашей армии составили:
+      ${militaryLoss[0]} ед. танковых дивизий,
+      ${militaryLoss[1]} ед. авиационных эскадр,
+      ${militaryLoss[2]} ед. ракетных комплексов,
+      ${militaryLoss[3]} ед. подводных лодок,
+      ${militaryLoss[4]} ед. тяжелых крейсеров,
+      ${militaryLoss[5]} ед. атомного оружия.</span>
       `,
     });
   }

@@ -62,6 +62,7 @@ import { useAppStore } from '@/store/app.store';
 import { countryNames } from '@/data/countries';
 import { useModalStore } from '@/store/modal.store';
 import { militaryItemsTemplate } from '@/data/military';
+import { countMilitaryLoss } from '@/utils/countMilitaryLoss';
 
 const appStore = useAppStore();
 const modalStore = useModalStore();
@@ -103,22 +104,14 @@ const attack = () => {
   appStore.stats.conflicts += 1;
   isWin ? (appStore.stats.wins += 1) : (appStore.stats.loses += 1);
 
-  const militaryLoss = [
-    // TODO fix coefficients
-    Math.round(Math.random() * appStore.military[0] * (isWin ? 0.2 : 0.8)),
-    Math.round(Math.random() * appStore.military[1] * (isWin ? 0.2 : 0.8)),
-    Math.round(Math.random() * appStore.military[2] * (isWin ? 0.2 : 0.8)),
-    Math.round(Math.random() * appStore.military[3] * (isWin ? 0.2 : 0.8)),
-    Math.round(Math.random() * appStore.military[4] * (isWin ? 0.2 : 0.8)),
-    // Math.round(Math.random() * appStore.military[5] * (isWin ? 0.2 : 1)),
-  ];
-  for (let i = 0; i < 5; i++) {
-    appStore.military[i] -= militaryLoss[i];
-  }
-  if (appStore.military[0] === 0) {
-    appStore.military[0] = 1;
-    militaryLoss[0] -= 1;
-  }
+  const militaryLoss = countMilitaryLoss(appStore, [
+    // TODO fix coefficients?
+    Math.random() * (isWin ? 0.2 : 0.8),
+    Math.random() * (isWin ? 0.2 : 0.8),
+    Math.random() * (isWin ? 0.2 : 0.8),
+    Math.random() * (isWin ? 0.2 : 0.8),
+    Math.random() * (isWin ? 0.2 : 0.8),
+  ]);
 
   if (isWin) {
     const budgetProfit = Math.floor((Math.random() * enemy.value.budget) / 3);
