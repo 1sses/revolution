@@ -5,7 +5,6 @@
   >
     <ModalForm :width="sizes.width" />
     <header class="header">
-      <span>{{ sizes.width }}, {{ sizes.height }}</span>
       <h2>Бюджет: {{ money.toLocaleString() }} руб.</h2>
       <h3 class="green">
         Прирост: {{ income.toLocaleString() }} руб.

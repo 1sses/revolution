@@ -8,8 +8,6 @@ export const useFullSpace = (aspectRatio: number) => {
   const computeSizes = () => {
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
-    // const windowWidth = document.documentElement.clientWidth;
-    // const windowHeight = document.documentElement.clientHeight;
     if (windowWidth / windowHeight > aspectRatio) {
       sizes.width = windowHeight * aspectRatio + 'px';
       sizes.height = windowHeight + 'px';
