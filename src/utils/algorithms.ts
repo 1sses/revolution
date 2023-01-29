@@ -14,7 +14,7 @@ export const enemyStatFn = (x: number, coefficient: number, fix: number) =>
   Math.round((1.4 * x) / coefficient + fix);
 
 export const defenseCapacityFn = (x: number) => {
-  const coefficient = 8 * Math.cbrt(x - 99.5) + 50;
+  const coefficient = 10 * Math.cbrt(x - 99) + 45;
   if (coefficient > 100) return 100;
   return coefficient;
 };
