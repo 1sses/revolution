@@ -6,12 +6,16 @@ export const useFullSpace = (aspectRatio: number) => {
     height: '',
   });
   const computeSizes = () => {
-    if (window.innerWidth / window.innerHeight > aspectRatio) {
-      sizes.width = window.innerHeight * aspectRatio + 'px';
-      sizes.height = window.innerHeight + 'px';
+    // const windowWidth = window.innerWidth;
+    // const windowHeight = window.innerHeight;
+    const windowWidth = document.documentElement.clientWidth;
+    const windowHeight = document.documentElement.clientHeight;
+    if (windowWidth / windowHeight > aspectRatio) {
+      sizes.width = windowHeight * aspectRatio + 'px';
+      sizes.height = windowHeight + 'px';
     } else {
-      sizes.width = window.innerWidth + 'px';
-      sizes.height = window.innerWidth / aspectRatio + 'px';
+      sizes.width = windowWidth + 'px';
+      sizes.height = windowWidth / aspectRatio + 'px';
     }
   };
   onMounted(() => {
