@@ -26,6 +26,7 @@
         </transition>
       </router-view>
       <img
+        id="slider"
         src="./assets/slider.png"
         alt="slider"
         class="slider"
@@ -44,7 +45,7 @@ import { routes } from '@/router';
 import ModalForm from '@/components/ModalForm.vue';
 import { decrypt, encrypt } from '@/utils/crypto';
 import { useFullSpace } from '@/composable/useFullSpace';
-import { usePageSwipe } from '@/composable/usePageSwipe';
+import { useSwipe } from '@/composable/useSwipe';
 import { useModalStore } from '@/store/modal.store';
 import { countMilitaryLoss } from '@/utils/countMilitaryLoss';
 
@@ -53,7 +54,7 @@ const route = useRoute();
 const appStore = useAppStore();
 const modalStore = useModalStore();
 const { sizes } = useFullSpace(1600 / 2560);
-const { transitionName } = usePageSwipe(
+const { transitionName } = useSwipe(
   'page',
   () => {
     const next = routes.find((r) => r.meta?.order === route.meta.order + 1);
@@ -377,6 +378,7 @@ body {
       width: 17%;
       box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
       transition: left 0.2s;
+      pointer-events: none;
     }
   }
 }
