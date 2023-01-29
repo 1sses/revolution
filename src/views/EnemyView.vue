@@ -66,22 +66,20 @@ import { militaryItemsTemplate } from '@/data/military';
 const appStore = useAppStore();
 const modalStore = useModalStore();
 
-const enemy = computed(() => {
-  return {
-    name: countryNames[appStore.enemy],
-    // TODO fix coefficients
-    population: 5400 * enemyStatFn(appStore.enemy + 1, 1, 0),
-    budget: 22800 * enemyStatFn(appStore.enemy + 1, 1, 0),
-    income: 60 * enemyStatFn(appStore.enemy + 1, 1, 0),
-    military: militaryItemsTemplate.map((item) =>
-      enemyStatFn(
-        appStore.enemy,
-        item.statsGeneratorCoefficient,
-        item.statsGeneratorFix
-      )
-    ),
-  };
-});
+const enemy = computed(() => ({
+  name: countryNames[appStore.enemy],
+  // TODO fix coefficients
+  population: 5400 * enemyStatFn(appStore.enemy + 1, 1, 0),
+  budget: 46800 * enemyStatFn(appStore.enemy + 1, 1, 0),
+  income: 320 * enemyStatFn(appStore.enemy + 1, 1, 0),
+  military: militaryItemsTemplate.map((item) =>
+    enemyStatFn(
+      appStore.enemy,
+      item.statsGeneratorCoefficient,
+      item.statsGeneratorFix
+    )
+  ),
+}));
 
 const defenseCapability = computed(() =>
   defenseCapacityFn(
@@ -123,10 +121,10 @@ const attack = () => {
   }
 
   if (isWin) {
-    const budgetProfit = Math.floor((Math.random() * enemy.value.budget) / 2);
-    const incomeProfit = Math.floor((Math.random() * enemy.value.income) / 2);
+    const budgetProfit = Math.floor((Math.random() * enemy.value.budget) / 3);
+    const incomeProfit = Math.floor((Math.random() * enemy.value.income) / 3);
     const populationProfit = Math.floor(
-      (Math.random() * enemy.value.population) / 2
+      (Math.random() * enemy.value.population) / 3
     );
     appStore.enemy += 1;
     appStore.money += budgetProfit;

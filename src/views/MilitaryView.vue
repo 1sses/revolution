@@ -1,7 +1,7 @@
 <template>
   <section>
     <h2 class="title" style="margin-top: 1%">Угроза вторжения</h2>
-    <SliderLine :value="threatOfInvasion" />
+    <SliderLine :value="appStore.threatOfInvasion" />
     <h2 class="title" style="margin-top: 5%">Угроза атомной бомбардировки</h2>
     <SliderLine :value="15" />
     <div class="military-items">
@@ -25,14 +25,10 @@ import { useModalStore } from '@/store/modal.store';
 import { militaryItemsTemplate as military } from '@/data/military';
 import SliderLine from '@/components/SliderLine.vue';
 import { computed } from 'vue';
+import { storeToRefs } from 'pinia';
 
 const appStore = useAppStore();
 const modalStore = useModalStore();
-
-const threatOfInvasion = computed(() => {
-  const coefficient = appStore.netIncome / appStore.militaryPower / 2;
-  return coefficient > 100 ? 100 : coefficient;
-});
 
 const handleIndustryClick = (item) => {
   const index = military.findIndex(

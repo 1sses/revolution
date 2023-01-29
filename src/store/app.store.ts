@@ -13,6 +13,10 @@ export const useAppStore = defineStore('app', {
     },
     industry: [0, 0, 0, 0, 0, 0, 0, 0, 0],
     military: [2, 1, 2, 0, 0, 0],
+    invasion: {
+      isNotified: false,
+      status: 0,
+    },
     enemy: 0,
     stats: {
       industryBuilt: 0,
@@ -27,10 +31,17 @@ export const useAppStore = defineStore('app', {
     },
   }),
   getters: {
-    income: (state) =>
+    income: (state): number =>
       state.famine.status === 0
         ? state.netIncome
         : Math.round(state.netIncome / 2),
-    militaryPower: (state) => militaryPowerFn(state.military),
+    militaryPower: (state): number => militaryPowerFn(state.military),
+    threatOfInvasion: (state): number => {
+      const coefficient =
+        (state.money / 700 + state.netIncome) /
+        militaryPowerFn(state.military) /
+        8;
+      return coefficient > 100 ? 100 : coefficient;
+    },
   },
 });

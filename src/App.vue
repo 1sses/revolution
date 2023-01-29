@@ -85,6 +85,7 @@ setInterval(() => {
   appStore.money += appStore.income;
   appStore.food -= Math.round(appStore.population * 0.03);
   if (appStore.food < 0) famineHandler();
+  invasionHandler();
 }, 1000);
 
 appStore.$subscribe((mutation, state) => {
@@ -178,6 +179,39 @@ const famineHandler = () => {
     });
     appStore.$reset();
     return;
+  }
+};
+
+const invasionHandler = () => {
+  if (appStore.invasion.status === 0 && appStore.threatOfInvasion > 50) {
+    appStore.invasion.status = 1;
+    modalStore.openModal({
+      header: 'Оборона страны',
+      content:
+        'С ростом промышленности и населения растет уровень угрозы вторжения.' +
+        ' Развивайте ваши вооруженные силы, чтобы предотвратить нападение.',
+    });
+  }
+  if (appStore.invasion.status === 1 && appStore.threatOfInvasion > 75) {
+    appStore.invasion.status = 2;
+    modalStore.openModal({
+      header: 'Угроза вторжения',
+      content:
+        'К нашим границам стягивается военная техника, велика вероятность вторжения!' +
+        ' Укрепите границы страны военной техникой, иначе войны не избежать.',
+    });
+  }
+  // invasion
+  const random = (Math.random() * 20000) / appStore.threatOfInvasion;
+  if (random < 1) {
+    modalStore.openModal({
+      header: 'Нападение',
+      content: `
+      На страну совершено нападение, часть территорий захвачена!
+      <p style="font-size: 150%">Потери</p>
+
+      `,
+    });
   }
 };
 </script>
