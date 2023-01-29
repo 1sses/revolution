@@ -100,7 +100,7 @@ const { isOpen, header, content, showWoman } = storeToRefs(modalStore);
     bottom: -13%;
     right: -5%;
     width: 90%;
-    user-select: none;
+    pointer-events: none;
   }
 }
 </style>

@@ -18,6 +18,7 @@ const router = useRouter();
 const appStore = useAppStore();
 const modalStore = useModalStore();
 const startNewGame = () => {
+  localStorage.removeItem('data');
   appStore.$reset();
   router.push('/stats');
   modalStore.closeModal();

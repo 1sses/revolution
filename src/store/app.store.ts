@@ -14,8 +14,8 @@ export const useAppStore = defineStore('app', {
     industry: [0, 0, 0, 0, 0, 0, 0, 0, 0],
     military: [2, 1, 2, 0, 0, 0],
     invasion: {
-      isNotified: false,
-      status: 0,
+      isNotified1: false,
+      isNotified2: false,
     },
     enemy: 0,
     stats: {
@@ -40,7 +40,7 @@ export const useAppStore = defineStore('app', {
       const coefficient =
         (state.money / 700 + state.netIncome) /
         militaryPowerFn(state.military) /
-        8;
+        7;
       return coefficient > 100 ? 100 : coefficient;
     },
   },

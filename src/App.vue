@@ -126,8 +126,15 @@ const famineHandler = () => {
     appStore.population -= Math.round(
       appStore.population * populationPercentLost
     );
+    const industryPrevCount = appStore.industry.reduce(
+      (acc, cur) => acc + cur,
+      0
+    );
+    appStore.industry = appStore.industry.map((i) =>
+      Math.round(i - i * industryPercentLost)
+    );
     appStore.stats.industryLost += Math.round(
-      appStore.industry.reduce((acc, cur) => acc + cur, 0) * industryPercentLost
+      industryPrevCount * industryPercentLost
     );
     appStore.stats.populationDiedInConflicts += Math.round(
       appStore.population * populationPercentLost * (Math.random() * 0.2 + 0.1)
@@ -151,8 +158,15 @@ const famineHandler = () => {
     appStore.population -= Math.round(
       appStore.population * populationPercentLost
     );
+    const industryPrevCount = appStore.industry.reduce(
+      (acc, cur) => acc + cur,
+      0
+    );
+    appStore.industry = appStore.industry.map((i) =>
+      Math.round(i - i * industryPercentLost)
+    );
     appStore.stats.industryLost += Math.round(
-      appStore.industry.reduce((acc, cur) => acc + cur, 0) * industryPercentLost
+      industryPrevCount * industryPercentLost
     );
     appStore.stats.populationDiedInConflicts += Math.round(
       appStore.population * populationPercentLost * (Math.random() * 0.2 + 0.1)
@@ -184,8 +198,15 @@ const famineHandler = () => {
 };
 
 const invasionHandler = () => {
-  if (appStore.invasion.status === 0 && appStore.threatOfInvasion > 50) {
-    appStore.invasion.status = 1;
+  if (appStore.threatOfInvasion < 50) {
+    appStore.invasion.isNotified1 = false;
+    appStore.invasion.isNotified2 = false;
+  } else if (appStore.threatOfInvasion < 75) {
+    appStore.invasion.isNotified2 = false;
+  }
+
+  if (!appStore.invasion.isNotified1 && appStore.threatOfInvasion > 50) {
+    appStore.invasion.isNotified1 = true;
     modalStore.openModal({
       header: 'Оборона страны',
       content:
@@ -193,8 +214,8 @@ const invasionHandler = () => {
         ' Развивайте ваши вооруженные силы, чтобы предотвратить нападение.',
     });
   }
-  if (appStore.invasion.status === 1 && appStore.threatOfInvasion > 75) {
-    appStore.invasion.status = 2;
+  if (!appStore.invasion.isNotified2 && appStore.threatOfInvasion > 75) {
+    appStore.invasion.isNotified2 = true;
     modalStore.openModal({
       header: 'Угроза вторжения',
       content:
@@ -202,8 +223,33 @@ const invasionHandler = () => {
         ' Укрепите границы страны военной техникой, иначе войны не избежать.',
     });
   }
-  // invasion
-  if ((Math.random() * 20000) / appStore.threatOfInvasion < 1) {
+
+  if (
+    appStore.threatOfInvasion > 50 &&
+    (Math.random() * 20000) / appStore.threatOfInvasion < 1
+  ) {
+    const budgetPercentLost = Math.random() * 0.2 + 0.3;
+    const incomePercentLost = Math.random() * 0.2 + 0.3;
+    const populationPercentLost = Math.random() * 0.2 + 0.3;
+    const industryPercentLost = Math.random() * 0.2 + 0.3;
+    appStore.money -= Math.round(appStore.money * budgetPercentLost);
+    appStore.netIncome -= Math.round(appStore.netIncome * incomePercentLost);
+    appStore.population -= Math.round(
+      appStore.population * populationPercentLost
+    );
+    const industryPrevCount = appStore.industry.reduce(
+      (acc, cur) => acc + cur,
+      0
+    );
+    appStore.industry = appStore.industry.map((i) =>
+      Math.round(i - i * industryPercentLost)
+    );
+    appStore.stats.industryLost += Math.round(
+      industryPrevCount * industryPercentLost
+    );
+    appStore.stats.populationDiedInConflicts += Math.round(
+      appStore.population * populationPercentLost * (Math.random() * 0.2 + 0.1)
+    );
     const militaryLoss = countMilitaryLoss(appStore, [
       Math.random() * 0.2 + 0.35,
       Math.random() * 0.2 + 0.35,

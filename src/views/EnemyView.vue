@@ -124,7 +124,7 @@ const attack = () => {
     appStore.netIncome += incomeProfit;
     appStore.population += populationProfit;
     appStore.stats.industryCaptured += Math.round(
-      (Math.random() * appStore.enemy) / 2 + 1
+      Math.random() * appStore.enemy + 1
     );
     modalStore.openModal({
       header: 'Победа',

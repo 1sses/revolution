@@ -49,7 +49,8 @@ const handleIndustryClick = (item) => {
       : appStore.netIncome * (1 + item.income.value / 100)
   );
   appStore.population +=
-    item.basicPopulationIncome + Math.floor(appStore.industry[index] / 10) * 10; // TODO is this ok?
+    item.basicPopulationIncome +
+    Math.floor(appStore.industry[index] / 10) * item.basicPopulationIncome; // TODO is this ok?
   appStore.stats.industryBuilt += 1;
 };
 </script>
